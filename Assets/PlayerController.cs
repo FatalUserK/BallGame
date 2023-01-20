@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     public bool test = false;
     public GameObject aimPrefab;
+
     new Vector2 mousePos;
+    new Vector2 aimPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +35,16 @@ public class PlayerController : MonoBehaviour
 
     void Aim ()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float angle;
+        aimPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Console.WriteLine("Player: Mouse position is locked correctly");
-        Instantiate(aimPrefab, mousePos, Quaternion.identity);
-        Console.WriteLine("Player: Object has spawned");
+        while (Input.GetMouseButtonDown(0))
+        {
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            angle = Vector2.Angle(aimPoint, mousePos);
+            Console.WriteLine(angle);
+            //Instantiate(aimPrefab, mousePos, Quaternion.identity);
+            //Console.WriteLine("Player: Object has spawned");
+        }
     }
 }
