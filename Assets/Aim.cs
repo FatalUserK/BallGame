@@ -29,6 +29,8 @@ public class Aim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Destroy(gameObject);
+
         if (Input.GetMouseButtonUp(0))
         {
             if (acceptablePath)
