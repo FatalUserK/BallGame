@@ -37,7 +37,7 @@ public class Aim : MonoBehaviour
             {
 
 
-                player.GetComponent<PlayerController>().Shoot(1);
+                player.GetComponent<PlayerScript>().Shoot(1);
 
                 //PlayerController controller = player.GetComponent<PlayerController>();
                 //controller.Shoot(1);
