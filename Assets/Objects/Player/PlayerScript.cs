@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -28,6 +29,7 @@ public class PlayerScript : MonoBehaviour
         shootIsSuccessful = true;
         Console.WriteLine(shootAngle);
         Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
+
     }
 
     // Update is called once per frame
