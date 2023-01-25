@@ -1,55 +1,107 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Mathematics;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] private bool shootIsSuccessful = false;
+
+    public List<GameObject> balls;
+
+    [SerializeField] private int playerState = 0;
     [SerializeField] private GameObject aimPrefab;
     public GameObject firedBall;
+    public GameObject ballGFX;
 
     bool isAiming = false;
+
+    GlobalEventsManager GlobalEventsManager;
 
     public double angle;
     public int distance;
     public float speed;
 
-    new Vector2 mousePos;
-    new Vector2 aimPoint;
+    int shotsRemaining;
+    public int shots;
+
+    Vector2 mousePos;
+    Vector2 aimPoint;
     // Start is called before the first frame update
     void Start()
     {
-
+        balls = new List<GameObject>();
+        if (GlobalEventsManager.isReloading) { playerState = 2; }
     }
 
-    public void Shoot(double shootAngle)
+
+    private void FixedUpdate()
     {
-        shootIsSuccessful = true;
-        Console.WriteLine(shootAngle);
-        Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
+        if (playerState == 2 && GameObject.FindGameObjectsWithTag("FiredBall") != null)
+        {
+            //EndTurn()
+        }
+    }
+
+
+    public void ExecuteAfterTime()
+    {
+        GameObject newOne = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
+        newOne.name = "Ball " + balls.ToArray().Length;
+        foreach (GameObject ball in balls) { Physics2D.IgnoreCollision(newOne.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>()); }
+        balls.Add(newOne);
+        if (shotsRemaining == 0) { Destroy(gameObject); }
 
     }
+
+
+    public void Shoot(double shootAngle, float waitTime)
+    {
+        shotsRemaining = shots;
+        playerState = 1;
+        Debug.Log(shootAngle);
+        while (shotsRemaining > 0)
+        {
+            Invoke("ExecuteAfterTime", (shots - shotsRemaining) * waitTime);
+            shotsRemaining--;
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isAiming)
+        if (Input.GetMouseButtonDown(0) && !isAiming && playerState == 0)
         {
-            Console.WriteLine("Player: Mouse is down");
+            Debug.Log("Player: Mouse is down");
             Aim();
         }
 
     }
 
+
     void Aim()
     {
         aimPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Console.WriteLine("Player: Mouse position is locked correctly");
+        Debug.Log("Player: Mouse position is locked correctly");
         StartCoroutine(aimCoroutine());
 
 
+    }
+
+    private IEnumerable aimSight()
+    {
+        for (int x = 0; x< 5; ++x)
+        {
+            //Destroy(GameObject.Find("BallGFX(Clone)"));
+            Instantiate(ballGFX, transform.position * x, Quaternion.Euler(new Vector3()));
+
+        }
+        yield return null;
     }
     private IEnumerator aimCoroutine()
     {
@@ -78,6 +130,29 @@ public class PlayerScript : MonoBehaviour
             //angle = Vector2.Angle(mousePos, aimPoint);
             //Console.WriteLine(angle);
 
+
+            //Instantiate(ballGFX, transform.position
+
+
+
+
+
+
+            //Instantiate(ballGFX, transform.position, UnityEngine.Quaternion.Euler(new Vector3(0, 0, -90)));
+
+            //Instantiate(farmingPlot, farmPosition, Quaternion.Euler(Vector3(45, 0, 0)));
+
+
+
+
+
+
+
+
+
+            aimSight();
+
+
             Instantiate(aimPrefab, aimPoint, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
             Instantiate(aimPrefab, mousePos, Quaternion.identity);
             //Console.WriteLine("Player: Object has spawned");
@@ -86,11 +161,11 @@ public class PlayerScript : MonoBehaviour
                 isAiming = false;
                 if (angleIsAcceptable)
                 {
-                    Shoot(angle);
+                    Shoot(angle, 0.2f);
                 }
                 else
                 {
-                    shootIsSuccessful = false;
+                    // canShoot = false;
                 }
             }
             yield return null;

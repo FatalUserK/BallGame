@@ -26,32 +26,32 @@ public class Block : MonoBehaviour
         {
             case 0:
                 blockName = "Square ";
-                Console.WriteLine("");
+                Debug.Log("");
                 break;
 
             case 1:
                 blockName = "Triangle ";
-                Console.WriteLine("");
+                Debug.Log("");
                 break;
 
             case 2:
                 blockName = "Diamond ";
-                Console.WriteLine("");
+                Debug.Log("");
                 break;
 
             case 3:
                 blockName = "Hexagon ";
-                Console.WriteLine("");
+                Debug.Log("");
                 break;
 
             case 4:
                 blockName = "Circle ";
-                Console.WriteLine("");
+                Debug.Log("");
                 break;
 
             case 5:
                 blockName = "SpinTriangle ";
-                Console.WriteLine("");
+                Debug.Log("");
                 break;
         }
 

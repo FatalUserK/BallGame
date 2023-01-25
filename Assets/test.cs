@@ -13,7 +13,6 @@ public class test : MonoBehaviour
     public GameObject paddle;
     public Boundary boundary;
 
-    bool dragging = false;
     Vector2 mouseStartPos;
     Vector2 paddleStartPos;
     Vector2 mousePos;
