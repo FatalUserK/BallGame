@@ -11,51 +11,72 @@ public class Block : MonoBehaviour
 {
     public TextMeshProUGUI txt;
 
+
+
+
+
+
+
+    public PolygonCollider2D polyCollider;
+
     private string blockName;
-    
+
+    Sprite newSprite;
+
+    public new Sprite[] spriteArray;
+
     public bool mysteryHealth = false;
     public bool invulnerable = false;
-    public int blockType;
+    public int blockType = 1;
     public int blockHealth = 69;
     public int damage = 1;
+
+    private void Awake()
+    {
+        GetComponent<SpriteRenderer>().sprite = newSprite;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+
+
+        gameObject.name = blockName + blockHealth;
+    }
+
+
+    void SetShape(int Sides)
+    {
+        //polyCollider.CreatePrimitive(6);
         switch (blockType)
         {
             case 0:
                 blockName = "Square ";
-                Debug.Log("");
+                //newSprite = 
                 break;
 
             case 1:
                 blockName = "Triangle ";
-                Debug.Log("");
                 break;
 
             case 2:
                 blockName = "Diamond ";
-                Debug.Log("");
                 break;
 
             case 3:
                 blockName = "Hexagon ";
-                Debug.Log("");
                 break;
 
             case 4:
                 blockName = "Circle ";
-                Debug.Log("");
                 break;
 
             case 5:
                 blockName = "SpinTriangle ";
-                Debug.Log("");
                 break;
         }
-
-        gameObject.name = blockName + blockHealth;
+        Destroy(GetComponent<PolygonCollider2D>());
+        gameObject.AddComponent<PolygonCollider2D>();
     }
 
 
