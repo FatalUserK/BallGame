@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class BallScript : MonoBehaviour
+public class BallScriptOLD : MonoBehaviour
 {
      Vector2 moveDirection;
 
@@ -27,8 +28,7 @@ public class BallScript : MonoBehaviour
         //GEM = GameObject.FindGameObjectWithTag("MainCamera");
 
 
-
-
+        
 
 
 
@@ -59,15 +59,32 @@ public class BallScript : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "BallNullifier" && boringBoolValue)
+        if (col.gameObject.tag == "Ground" && boringBoolValue)
         {
 
-            if (!GlobalEventsManager.isReloading)
+            if (!BallManager.Instance.isReloading)
             {
-                GlobalEventsManager.isReloading = true;
-                Instantiate(playerPrefab);
+                BallManager.Instance.isReloading = true;
+                BallManager.Instance.CreateCannon(transform, gameObject);
                 Debug.Log("OnCollisionEnter2D");
             }
+            else
+            {
+                Component.Destroy(rb);
+                Vector2.MoveTowards(transform.position, BallManager.Instance.Cannon.transform.position, 1);
+                if (transform.position == BallManager.Instance.Cannon.transform.position)
+                {
+                    Destroy(gameObject);
+                }
+            }
+
+
+
+
+        }
+        else
+        {
+            Debug.Log("OnCollisionEnter2D failed");
         }
     }
 }

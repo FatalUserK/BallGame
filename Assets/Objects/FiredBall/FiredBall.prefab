@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5334752861138174401}
   - component: {fileID: 7445599417914045776}
   - component: {fileID: 1815156168882637295}
+  - component: {fileID: 6441614564483484553}
   m_Layer: 0
   m_Name: FiredBall
   m_TagString: Untagged
@@ -42,7 +43,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8591024553032796169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ba46007440b49149a7888553da84690, type: 3}
   m_Name: 
@@ -88,6 +89,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &6441614564483484553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8591024553032796169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0aa36d900d5a945aacc814212bb804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &416894880820444874
 PrefabInstance:
   m_ObjectHideFlags: 0

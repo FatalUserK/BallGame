@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class PlayerScript : MonoBehaviour
+public class CannonOLD : MonoBehaviour
 {
 
     public List<GameObject> balls;
@@ -35,7 +35,8 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         balls = new List<GameObject>();
-        if (GlobalEventsManager.isReloading) { playerState = 2; }
+
+        //if (GlobalEventsManager.isReloading) { playerState = 2; }
     }
 
 
@@ -50,10 +51,15 @@ public class PlayerScript : MonoBehaviour
 
     public void ExecuteAfterTime()
     {
-        GameObject newOne = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
-        newOne.name = "Ball " + balls.ToArray().Length;
-        foreach (GameObject ball in balls) { Physics2D.IgnoreCollision(newOne.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>()); }
-        balls.Add(newOne);
+        GameObject shotsFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
+        shotsFired.name = "Ball " + (balls.ToArray().Length + 1);
+
+        foreach (GameObject ball in balls)
+        { 
+            Physics2D.IgnoreCollision(shotsFired.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>()); 
+        }
+
+        balls.Add(shotsFired);
         if (shotsRemaining == 0) { Destroy(gameObject); }
 
     }
@@ -115,14 +121,17 @@ public class PlayerScript : MonoBehaviour
 
             Vector2 p1 = aimPoint;
             Vector2 p2 = mousePos;
+
             angle = Math.Atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI; // this line of code was provided by a friend of mine, it seems to run some basic math functions to check the location of the 2 points and from there, extrapolate the angle between them
 
             distance = Convert.ToInt32(Vector2.Distance(aimPoint, mousePos));
+
 
             if (angle <= -3 && angle >= -178 && distance >= 2)
             {
                 angleIsAcceptable = true;
             }
+
             else
             {
                 angleIsAcceptable = false;
@@ -136,18 +145,9 @@ public class PlayerScript : MonoBehaviour
 
 
 
-
-
             //Instantiate(ballGFX, transform.position, UnityEngine.Quaternion.Euler(new Vector3(0, 0, -90)));
 
             //Instantiate(farmingPlot, farmPosition, Quaternion.Euler(Vector3(45, 0, 0)));
-
-
-
-
-
-
-
 
 
             aimSight();
