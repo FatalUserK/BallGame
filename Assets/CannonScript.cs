@@ -11,6 +11,7 @@ public class CannonScript : MonoBehaviour
     [SerializeField] GameObject marker;
     [SerializeField] GameObject ballGFX;
     [SerializeField] GameObject firedBall;
+    [SerializeField] GameObject aimPrefab;
 
     GlobalEventsManager GEM;
 
@@ -41,7 +42,7 @@ public class CannonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && GEM.cannonState == "Idle")
+        if (Input.GetMouseButtonDown(0) && GEM.cannonState == "Idle")    // check if the mouse is done and the cannon is exist, start aiming if yes
         {
             //Debug.Log("Player: Mouse is down");
             Aim();
@@ -89,13 +90,18 @@ public class CannonScript : MonoBehaviour
 
     private IEnumerable AimSight(float _angle)
     {
-        for (int i = 1; i < 5; ++i)
-        {
-            //Destroy(GameObject.Find("BallGFX(Clone)"));
-            Instantiate(ballGFX, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle));
+
+        GameObject tempThingy = Instantiate(aimPrefab, position: mousePos * -1, Quaternion.identity);
 
 
-        }
+
+        //for (int i = 1; i < 5; ++i)
+        //{
+        //    //Destroy(GameObject.Find("BallGFX(Clone)"));
+        //    GameObject aimBall[i] = Instantiate(ballGFX, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle));
+
+
+        //}
         yield return null;
     }
 
@@ -121,6 +127,7 @@ public class CannonScript : MonoBehaviour
             if (angle <= -3 && angle >= -178 && distance >= 2)
             {
                 angleIsAcceptable = true;
+                AimSight((float)angle);
             }
 
             else
@@ -130,7 +137,6 @@ public class CannonScript : MonoBehaviour
 
             //transform.rotation = Quaternion.Euler(0f, 0f, );
 
-            AimSight((float)angle);
 
 
             Instantiate(marker, aimPoint, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));

@@ -7,6 +7,12 @@ public class render : MonoBehaviour
 {
 
 
+
+
+
+
+
+
     private Vector3[] newVertices;
 
     private Material material;
@@ -15,7 +21,7 @@ public class render : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Mesh mesh = new Mesh();
         Vector3 V1 = new Vector3(0, 0, 0);
@@ -26,7 +32,7 @@ public class render : MonoBehaviour
         mesh.vertices = newVertices;
         mesh.triangles = newTriangles;
         CanvasRenderer rend = GetComponent<CanvasRenderer>();
-        rend.SetMaterial(material, null);
+        rend.SetMaterial(material, 1);
         rend.SetMesh(mesh);
     }
 

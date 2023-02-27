@@ -28,8 +28,8 @@ public class Block : MonoBehaviour
     public bool mysteryHealth = false;
     public bool invulnerable = false;
     public int blockType = 1;
-    public int blockHealth = 69;
-    public int damage = 1;
+    public int blockHealth;
+    public int damageMultiplier = 1;
 
     private void Awake()
     {
@@ -90,7 +90,7 @@ public class Block : MonoBehaviour
             }
             else
             {
-                blockHealth--;
+                blockHealth = blockHealth - damageMultiplier;
                 gameObject.name = blockName + blockHealth;
             }
         }
@@ -105,7 +105,8 @@ public class Block : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        OnHit(damage);
+        if (collision == null) { } // make it check if its fired ball tag
+        // OnHit(damageMultiplier * collision.damage); // if yes, deal damage that is equal to Ball Damage * damageMultiplier, also clamp to avoid going below 0
     }
 
 
