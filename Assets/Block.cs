@@ -13,7 +13,7 @@ public class Block : MonoBehaviour
 
 
 
-
+    Vector2 test = new Vector2(2, 2);
 
 
 
@@ -27,32 +27,38 @@ public class Block : MonoBehaviour
 
     public bool mysteryHealth = false;
     public bool invulnerable = false;
-    public int blockType = 1;
+    public int _blockShape = 1;
     public int blockHealth;
     public int damageMultiplier = 1;
 
     private void Awake()
     {
-        GetComponent<SpriteRenderer>().sprite = newSprite;
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        GenerateBlock();
+    }
 
+    public void GenerateBlock(int minRange = 1, int maxRange = 2, int blockShape = -1)
+    {
+        if (blockShape == -1) { blockShape = _blockShape; }
+
+        GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
 
         gameObject.name = blockName + blockHealth;
     }
 
 
-    void SetShape(int Sides)
+    void SetShape(int shape)
     {
         //polyCollider.CreatePrimitive(6);
-        switch (blockType)
+        switch (shape)
         {
             case 0:
                 blockName = "Square ";
-                //newSprite = 
                 break;
 
             case 1:
@@ -60,7 +66,7 @@ public class Block : MonoBehaviour
                 break;
 
             case 2:
-                blockName = "Diamond ";
+                blockName = "Pentagon ";
                 break;
 
             case 3:

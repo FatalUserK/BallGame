@@ -15,6 +15,8 @@ public class GlobalEventsManager : MonoBehaviour
     public string cannonState; // "Idle", "Firing", "Reloading".
     public float fireAngle;
 
+    
+
 
     public int test;
 
