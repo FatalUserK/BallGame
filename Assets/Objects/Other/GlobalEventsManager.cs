@@ -15,7 +15,10 @@ public class GlobalEventsManager : MonoBehaviour
     public string cannonState; // "Idle", "Firing", "Reloading".
     public float fireAngle;
 
-    
+    public int stage;
+    public int level;
+
+    public float timeMultiplier = 1;
 
 
     public int test;
@@ -23,6 +26,11 @@ public class GlobalEventsManager : MonoBehaviour
     [SerializeField] private GameObject cannonPrefab;
 
     public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway
+
+    public void Turn()
+    {
+        timeMultiplier = 1 + (level / 100);
+    }
 
 
     private void Awake()

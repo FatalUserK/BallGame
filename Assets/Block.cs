@@ -27,9 +27,12 @@ public class Block : MonoBehaviour
 
     public bool mysteryHealth = false;
     public bool invulnerable = false;
-    public int _blockShape = 1;
+    public int _blockShape = 0;
     public int blockHealth;
     public int damageMultiplier = 1;
+
+    AudioSource audioData;
+
 
     private void Awake()
     {
@@ -45,6 +48,9 @@ public class Block : MonoBehaviour
     public void GenerateBlock(int minRange = 1, int maxRange = 2, int blockShape = -1)
     {
         if (blockShape == -1) { blockShape = _blockShape; }
+
+        System.Random rand = new System.Random();
+        blockHealth = rand.Next(minRange, maxRange);
 
         GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
 
@@ -86,17 +92,20 @@ public class Block : MonoBehaviour
     }
 
 
-    public void OnHit(int onHitDamage)
+    public void OnHit(List<int> data)
     {
         if (!invulnerable)
         {
-            if (blockHealth <= onHitDamage)
+            if (blockHealth <= data[0])
             {
                 BlockDestroy();
             }
             else
             {
-                blockHealth = blockHealth - damageMultiplier;
+                Debug.Log("BLOCK HIT!");
+                blockHealth = blockHealth - data[0] * data[1] * damageMultiplier;
+
+                //audioData.Play(0);
                 gameObject.name = blockName + blockHealth;
             }
         }

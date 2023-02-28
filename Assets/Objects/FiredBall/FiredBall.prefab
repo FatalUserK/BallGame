@@ -9,13 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7756817676827931576}
-  - component: {fileID: 5334752861138174401}
   - component: {fileID: 7445599417914045776}
   - component: {fileID: 1815156168882637295}
   - component: {fileID: 6441614564483484553}
   m_Layer: 0
   m_Name: FiredBall
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,24 +33,8 @@ Transform:
   m_Children:
   - {fileID: 6950182119780100805}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5334752861138174401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8591024553032796169}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ba46007440b49149a7888553da84690, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5218821936945946405, guid: bc0c65705b379ca499583288dd775981, type: 3}
-  rb: {fileID: 7445599417914045776}
-  ballSpeed: 100
-  timeMultiplier: 1
 --- !u!50 &7445599417914045776
 Rigidbody2D:
   serializedVersion: 4
@@ -101,6 +84,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0aa36d900d5a945aacc814212bb804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  ballSpeed: 8
+  ballDamage: 1
+  ballDamageMultiplier: 1
+  ballVariable2: 0
+  ballVariable3: 16
+  ballVariable4: 29
+  ballVariable5: 31276239
+  ballData: 
 --- !u!1001 &416894880820444874
 PrefabInstance:
   m_ObjectHideFlags: 0

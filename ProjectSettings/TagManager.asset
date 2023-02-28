@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Boss
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Blocks
   - Water
   - UI
   - 

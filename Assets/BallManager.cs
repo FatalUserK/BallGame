@@ -36,23 +36,4 @@ public class BallManager : MonoBehaviour
     {
         Instance = this;
     }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void FixedUpdate()
-    {
-        if (!isReloading)
-        {
-            
-        }
-    }
 }

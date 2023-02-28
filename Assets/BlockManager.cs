@@ -10,14 +10,17 @@ public class BlockManager : MonoBehaviour
 
     [SerializeField] GameObject block;
 
-    void Start()
+    void Awake()
     {
-        for (int i = 0 ; i < 10; i++)
+        if (tutorialMode)
         {
-            for (int j = 0 ; j < 15; j++)
+            for (int i = 0; i < 10; i++)
             {
-                block = Instantiate(block, new Vector2(j, i * -1), Quaternion.identity);
-                block.GetComponent<Block>().GenerateBlock();
+                for (int j = 0; j < 15; j++)
+                {
+                    block = Instantiate(block, new Vector2(j, i * -1), Quaternion.identity);
+                    block.GetComponent<Block>().GenerateBlock();
+                }
             }
         }
     }

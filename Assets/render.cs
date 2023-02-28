@@ -31,9 +31,9 @@ public class render : MonoBehaviour
         newVertices = new Vector3[] { V1, V2, V3, V4 };
         mesh.vertices = newVertices;
         mesh.triangles = newTriangles;
-        CanvasRenderer rend = GetComponent<CanvasRenderer>();
-        rend.SetMaterial(material, 1);
-        rend.SetMesh(mesh);
+        //CanvasRenderer rend = GetComponent<CanvasRenderer>();
+        //rend.SetMaterial(material, 1);
+        //rend.SetMesh(mesh);
     }
 
     // Update is called once per frame

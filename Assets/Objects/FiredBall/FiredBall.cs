@@ -3,24 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class FiredBall : MonoBehaviour
 {
     GlobalEventsManager GEM;
 
     [SerializeField] Rigidbody2D rb;
+    AudioSource audioData;
 
     Vector2 moveDirection;
 
 
-    public float ballSpeed = 10;
+    public float ballSpeed = 8;
 
 
+    /*[TooltipAttribute("Variables that are delivered through the ballData List")]*/[Header("Ball Data")]
+    [Tooltip("Base Damage of the ball.")]public int ballDamage = 1;
+    [Tooltip("Multiplier for the ballDamage.")]public int ballDamageMultiplier = 1;
+    [Tooltip("Unused Variable.")]public int ballVariable2 = 0;
+    [Tooltip("Unused Variable.")] public int ballVariable3 = 16;
+    [Tooltip("Unused Variable.")] public int ballVariable4 = 29;
+    [Tooltip("Unused Variable.")] public int ballVariable5 = 31276239;
+
+    [Tooltip("Contains relevant data about the object to more easily transfer it to other objects.")]public List<int> ballData;
 
 
 
     private void Awake()
     {
         GEM = GlobalEventsManager.GEM;
+        ballData.Add(ballDamage);
+        ballData.Add(ballDamageMultiplier);
+        ballData.Add(ballVariable2);
+        ballData.Add(ballVariable3);
+        ballData.Add(ballVariable4);
+        ballData.Add(ballVariable5);
+
+
+
     }
 
     // Start is called before the first frame update

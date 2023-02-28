@@ -23,6 +23,8 @@ public class CannonScript : MonoBehaviour
 
     int shotsRemaining;
     public int shots;
+    float waitTime;
+
 
 
     bool isAiming = false;
@@ -40,6 +42,8 @@ public class CannonScript : MonoBehaviour
     }
 
     // Update is called once per frame
+
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && GEM.cannonState == "Idle")    // check if the mouse is done and the cannon is exist, start aiming if yes
@@ -50,7 +54,7 @@ public class CannonScript : MonoBehaviour
     }
 
 
-    public void FireAway(double shootAngle, float waitTime)
+    public void FireAway(double shootAngle)
     {
         GEM.cannonState = "Firing";
         shotsRemaining = shots;
@@ -58,25 +62,33 @@ public class CannonScript : MonoBehaviour
 
         GEM.fireAngle = (float)angle;
 
+
+
+
+
+
+
         while (shotsRemaining > 0)
         {
-            Invoke("ExecuteAfterTime", (shots - shotsRemaining) * waitTime);
+            Invoke("ExecuteAfterTime", (shots - shotsRemaining) * waitTime * GEM.timeMultiplier);
             shotsRemaining--;
         }
     }
 
     public void ExecuteAfterTime()
     {
-        GameObject shotFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)0));
+
+        GameObject shotFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)0)); //shoot after time
+
         shotFired.name = "Ball " + GEM.balls.ToArray().Length; // names the ball accordingly
 
-        foreach (GameObject ball in GEM.balls) // for every 
+        foreach (GameObject ball in GEM.balls) // for every ball in the balls array
         {
-            Physics2D.IgnoreCollision(shotFired.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(shotFired.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>()); //ignore collision with other balls
         }
 
         GEM.balls.Add(shotFired);
-        if (shotsRemaining == 0) { Destroy(gameObject); }
+        //if (shotsRemaining == 0) { Destroy(gameObject); }
 
     }
 
@@ -148,7 +160,7 @@ public class CannonScript : MonoBehaviour
                 isAiming = false;
                 if (angleIsAcceptable)
                 {
-                    FireAway(angle, 0.2f);
+                    FireAway(angle);
                 }
                 else
                 {
