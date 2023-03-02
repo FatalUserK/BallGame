@@ -21,9 +21,9 @@ public class CannonScript : MonoBehaviour
 
     float speed;
 
-    int shotsRemaining;
+    public int shotsRemaining;
     public int shots;
-    float waitTime;
+    [Tooltip("The base time between shots")][SerializeField]float waitTime;
 
 
 
@@ -34,7 +34,7 @@ public class CannonScript : MonoBehaviour
     Vector2 aimPoint;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         GEM = GlobalEventsManager.GEM;
         GEM.mainCannon = gameObject;
@@ -58,7 +58,7 @@ public class CannonScript : MonoBehaviour
     {
         GEM.cannonState = "Firing";
         shotsRemaining = shots;
-        Debug.Log(shootAngle); // where did shootAngle come from???
+        Debug.Log(shotsRemaining + " " + shots); // where did shootAngle come from???
 
         GEM.fireAngle = (float)angle;
 
@@ -70,8 +70,10 @@ public class CannonScript : MonoBehaviour
 
         while (shotsRemaining > 0)
         {
-            Invoke("ExecuteAfterTime", (shots - shotsRemaining) * waitTime * GEM.timeMultiplier);
+            Invoke("ExecuteAfterTime", (shots - shotsRemaining) * waitTime / GEM.timeMultiplier);
+
             shotsRemaining--;
+            Debug.Log(waitTime);
         }
     }
 
@@ -80,7 +82,7 @@ public class CannonScript : MonoBehaviour
 
         GameObject shotFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)0)); //shoot after time
 
-        shotFired.name = "Ball " + GEM.balls.ToArray().Length; // names the ball accordingly
+        shotFired.name = "Ball " + GEM.balls.ToArray().Length + 1; // names the ball accordingly
 
         foreach (GameObject ball in GEM.balls) // for every ball in the balls array
         {
@@ -88,6 +90,7 @@ public class CannonScript : MonoBehaviour
         }
 
         GEM.balls.Add(shotFired);
+        Debug.Log("Added " + shotFired.name + " to GEM.balls:\n" + GEM.balls.ToString());
         //if (shotsRemaining == 0) { Destroy(gameObject); }
 
     }

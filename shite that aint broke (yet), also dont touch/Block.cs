@@ -27,16 +27,16 @@ public class Block : MonoBehaviour
 
     public bool mysteryHealth = false;
     public bool invulnerable = false;
-    public int blockShape = 0;
+    public int _blockShape = 0;
     public int blockHealth;
     public int damageMultiplier = 1;
 
     AudioSource audioData;
-    GameObject rc;
+
 
     private void Awake()
     {
-        rc = transform.GetChild(0).gameObject;
+        
     }
 
     // Start is called before the first frame update
@@ -45,57 +45,18 @@ public class Block : MonoBehaviour
         GenerateBlock();
     }
 
-    public void GenerateBlock(int minRange = 1, int maxRange = 2, int _blockShape = -1)
+    public void GenerateBlock(int minRange = 1, int maxRange = 2, int blockShape = -1)
     {
-        if (_blockShape > -1) { blockShape = _blockShape; }
+        if (blockShape == -1) { blockShape = _blockShape; }
 
         System.Random rand = new System.Random();
         blockHealth = rand.Next(minRange, maxRange);
 
-        rc.GetComponent<Renderer>().Fill(10);
-
-        //GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
+        GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
 
         gameObject.name = blockName + blockHealth;
     }
 
-
-
-
-    public void OnHit(List<int> data)
-    {
-        if (!invulnerable)
-        {
-            if (blockHealth <= data[0])
-            {
-                BlockDestroy();
-            }
-            else
-            {
-                Debug.Log("BLOCK HIT!");
-                blockHealth = Mathf.Clamp(blockHealth - data[0] * data[1] * damageMultiplier, 0, -1);
-
-                //audioData.Play(0);
-                gameObject.name = blockName + blockHealth;
-            }
-        }
-
-    }
-
-    void BlockDestroy()
-    {
-        Destroy(gameObject);
-    }
-
-
-
-
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        txt.text = "" + blockHealth;
-    }
 
     void SetShape(int shape)
     {
@@ -131,4 +92,42 @@ public class Block : MonoBehaviour
     }
 
 
+    public void OnHit(List<int> data)
+    {
+        if (!invulnerable)
+        {
+            if (blockHealth <= data[0])
+            {
+                BlockDestroy();
+            }
+            else
+            {
+                Debug.Log("BLOCK HIT!");
+                blockHealth = blockHealth - data[0] * data[1] * damageMultiplier;
+
+                //audioData.Play(0);
+                gameObject.name = blockName + blockHealth;
+            }
+        }
+
+    }
+
+    void BlockDestroy()
+    {
+        Destroy(gameObject);
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision == null) { } // make it check if its fired ball tag
+        // OnHit(damageMultiplier * collision.damage); // if yes, deal damage that is equal to Ball Damage * damageMultiplier, also clamp to avoid going below 0
+    }
+
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        txt.text = "" + blockHealth;
+    }
 }

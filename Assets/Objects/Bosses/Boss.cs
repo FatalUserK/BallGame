@@ -14,7 +14,7 @@ public class Boss : MonoBehaviour
     public int damageMultiplier = 1;
 
 
-    void Awake()
+    void Start()
     {
         if (GlobalEventsManager.GEM.level < 0)
         {

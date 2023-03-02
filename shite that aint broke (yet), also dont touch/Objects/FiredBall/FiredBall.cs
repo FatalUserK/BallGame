@@ -48,7 +48,7 @@ public class FiredBall : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); //find the rigidbody component in the object
         moveDirection = new Vector2(Mathf.Cos(GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed, Mathf.Sin(GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed) / -1;
-        //Debug.Log("<color=light_blue>moveDirection = \"" + moveDirection + "\nmath1: \"" + (Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nmath2: \"" + (Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nAngle: " + transform.eulerAngles.z + "</color>");
+        Debug.Log("<color=light_blue>moveDirection = \"" + moveDirection + "\nmath1: \"" + (Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nmath2: \"" + (Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nAngle: " + transform.eulerAngles.z + "</color>");
         rb.AddForce(moveDirection * 10);
 
     }

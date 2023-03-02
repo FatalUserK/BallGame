@@ -25,7 +25,7 @@ public class GlobalEventsManager : MonoBehaviour
 
     [SerializeField] private GameObject cannonPrefab;
 
-    public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway lmao
+    public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway
 
     public void Turn()
     {

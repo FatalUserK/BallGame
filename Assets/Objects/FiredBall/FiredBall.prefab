@@ -105,6 +105,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BallGFX
       objectReference: {fileID: 0}
+    - target: {fileID: 7331044901632119822, guid: 93331aa7eac2af54a8a04b4a2c0db718, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2413806693520163455, guid: d5d81b05f92606b4e855b815daa7b148, type: 3}
+    - target: {fileID: 7331044901632119822, guid: 93331aa7eac2af54a8a04b4a2c0db718, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7331044901632119823, guid: 93331aa7eac2af54a8a04b4a2c0db718, type: 3}
       propertyPath: m_RootOrder
       value: -1

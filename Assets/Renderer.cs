@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 // robbed from https://www.youtube.com/watch?v=YG-gIX_OvSE, thanks Kevin for your donation of all your code :D
@@ -35,7 +36,9 @@ public class Renderer : MonoBehaviour
         sharedMaterial= GetComponent<Material>();
         material=sharedMaterial;
         mesh = new Mesh();
+        
         this.GetComponent<MeshFilter>().mesh = mesh;
+
         parent = gameObject.transform.parent.gameObject;
     }
 
@@ -57,7 +60,6 @@ public class Renderer : MonoBehaviour
         {
             Vector3[] vertices;
             int[] triangles;
-            float radius;
             List<Vector3> points = new List<Vector3>();
             switch (shape)
             {
@@ -65,8 +67,8 @@ public class Renderer : MonoBehaviour
                     //impossible lmao
                     break;
 
-                case 10:
-                    //square
+                case 1:
+                        //square
 
                     vertices = new Vector3[]
                     { 
@@ -86,10 +88,11 @@ public class Renderer : MonoBehaviour
 
                     triangles = new int[]
                     {
-                        0, 1, 2,
+                        1, 0, 2,
                         3, 1, 2
                     };
-                    NewMesh(vertices, uv, triangles);
+
+                    NewMesh(vertices, uv, triangles, 0, false);
 
 
 
@@ -133,16 +136,39 @@ public class Renderer : MonoBehaviour
                     break;
 
                 #region not-squares
-                case 20:
-                    //triangle
-                    break;
-
-                case 21:
+                case 2:
                     //corner triangle
+
+                    vertices = new Vector3[]
+                    {
+                        new Vector3(0, 0),
+                        new Vector3(1, 0),
+                        new Vector3(0, 1)
+                    };
+
+                    uv = new Vector2[]
+                    {
+                        new Vector2(0, 0),
+                        new Vector2(1, 0),
+                        new Vector2(0, 1)
+                    };
+
+                    triangles = new int[]
+                    {
+                        1, 0, 2
+                    };
+
+
+
+                    NewMesh(vertices, uv, triangles, 2, false);
+
                     break;
 
-                case 30:
-                    //diamond
+                case 3:
+                    //triangle
+
+
+
                     break;
 
                 case 40:
@@ -170,19 +196,80 @@ public class Renderer : MonoBehaviour
         }
     }
 
-    void NewMesh(Vector3[] vertices, Vector2[] uv, int[] triangles) //because for some fucking reason, C# doesn't understand how Switch Statements work
+    void NewMesh(Vector3[] vertices, Vector2[] uv, int[] triangles, int rotationSetting = 0, bool allignedCorrectly = true) //because for some fucking reason, C# doesn't understand how Switch Statements work
     {
+
+        if (!allignedCorrectly)
+        {
+            for (int j = 0; j < vertices.Length; j++)
+            {
+                vertices[j].x = vertices[j].x - (float).5;
+                vertices[j].y = vertices[j].y - (float).5;
+                uv[j].x = uv[j].x - (float).5;
+                uv[j].y = uv[j].y - (float).5;
+            }
+        }
+
+        switch (rotationSetting)
+        {
+            default:
+                //do nothing lmao
+                break;
+
+            case 1:
+                Quaternion.Euler(0, 0, new System.Random().Next(0, 3) * 90);
+                break;
+
+            case 2:
+                float magicNumber = new System.Random().Next(0, 7) * 45;
+                Vector3 john = new Vector3(0, 0, 0); // note: remove johns
+
+                transform.Rotate(0, 0, magicNumber);
+                if (magicNumber %2 != 0) { transform.localScale = new Vector3(.6f, .6f, .6f); }
+                break;
+
+
+        }
+            
+
+
+        Vector2[] newVerts = new Vector2[vertices.Length];
+        int i = 0;
+        foreach (Vector3 v3 in vertices)
+        {
+            newVerts[i] = new Vector2(v3.x, v3.y);
+            i++;
+        }
+
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
+        //PolygonCollider2D polygonCollider = new PolygonCollider2D();
+        //polygonCollider.points = newVerts;
+
+
+        Vector2[] myPoints = new Vector2[vertices.Length - 1];
+        for (i = 0; i < vertices.Length - 1; i++)
+        {
+            myPoints[i] = vertices[i];
+        }
+
+        gameObject.AddComponent<PolygonCollider2D>();
+        GetComponent<PolygonCollider2D>().points = myPoints;
+
+
+
+
+
+        //autoPolygonBS(vertices, triangles);
+
+
+
     }
 
 
-    private void Start()
-    {
-        //Fill();
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -194,9 +281,97 @@ public class Renderer : MonoBehaviour
         Mathf.Clamp(polygonSides, 1, 69);
     }
 
-    #region Auto Shape stuff
 
-    void DrawFilled(int sides, float radius)
+    #region collider bullshit
+
+    void autoPolygonBS(Vector3[] vertices, int[] triangles)
+    {
+        // Get just the outer edges from the mesh's triangles (ignore or remove any shared edges)
+        Dictionary<string, KeyValuePair<int, int>> edges = new Dictionary<string, KeyValuePair<int, int>>();
+        for (int i = 0; i < triangles.Length; i += 3)
+        {
+            for (int e = 0; e < 3; e++)
+            {
+                int vert1 = triangles[i + e];
+                int vert2 = triangles[i + e + 1 > i + 2 ? i : i + e + 1];
+                string edge = Mathf.Min(vert1, vert2) + ":" + Mathf.Max(vert1, vert2);
+                if (edges.ContainsKey(edge))
+                {
+                    edges.Remove(edge);
+                }
+                else
+                {
+                    edges.Add(edge, new KeyValuePair<int, int>(vert1, vert2));
+                }
+            }
+        }
+
+        // Create edge lookup (Key is first vertex, Value is second vertex, of each edge)
+        Dictionary<int, int> lookup = new Dictionary<int, int>();
+        foreach (KeyValuePair<int, int> edge in edges.Values)
+        {
+            if (lookup.ContainsKey(edge.Key) == false)
+            {
+                lookup.Add(edge.Key, edge.Value);
+            }
+        }
+
+        // Create empty polygon collider
+        PolygonCollider2D polygonCollider = gameObject.AddComponent<PolygonCollider2D>();
+        polygonCollider.pathCount = 0;
+
+        // Loop through edge vertices in order
+        int startVert = 0;
+        int nextVert = startVert;
+        int highestVert = startVert;
+        List<Vector2> colliderPath = new List<Vector2>();
+        while (true)
+        {
+
+            // Add vertex to collider path
+            colliderPath.Add(vertices[nextVert]);
+
+            // Get next vertex
+            nextVert = lookup[nextVert];
+
+            // Store highest vertex (to know what shape to move to next)
+            if (nextVert > highestVert)
+            {
+                highestVert = nextVert;
+            }
+
+            // Shape complete
+            if (nextVert == startVert)
+            {
+
+                // Add path to polygon collider
+                polygonCollider.pathCount++;
+                polygonCollider.SetPath(polygonCollider.pathCount - 1, colliderPath.ToArray());
+                colliderPath.Clear();
+
+                // Go to next shape if one exists
+                if (lookup.ContainsKey(highestVert + 1))
+                {
+
+                    // Set starting and next vertices
+                    startVert = highestVert + 1;
+                    nextVert = startVert;
+
+                    // Continue to next loop
+                    continue;
+                }
+
+                // No more verts
+                break;
+            }
+        }
+    }
+#endregion
+
+
+#region Auto Shape stuff
+
+void DrawFilled(int sides, float radius)
     {
         polygonPoints = GetCircumferencePoints(sides, radius).ToArray();
         polygonTriangles = DrawFilledTriangles(polygonPoints);

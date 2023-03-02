@@ -14,12 +14,12 @@ public class BlockManager : MonoBehaviour
     {
         if (tutorialMode)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i > -10; i--)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < 11; j++)
                 {
-                    block = Instantiate(block, new Vector2(j, i * -1), Quaternion.identity);
-                    block.GetComponent<Block>().GenerateBlock();
+                    block = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i + .5f), Quaternion.identity, transform);
+                    block.GetComponent<Block>().GenerateBlock(1, 2, 1);
                 }
             }
         }
