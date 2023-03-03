@@ -87,7 +87,7 @@ public class FiredBall : MonoBehaviour
         }
         else
         {
-            Debug.Log("Ball has Bounced!");
+            // Debug.Log("Ball has Bounced!");
         }
     }
 

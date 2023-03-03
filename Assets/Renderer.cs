@@ -44,7 +44,7 @@ public class Renderer : MonoBehaviour
 
     public void Fill(int shape = 0, bool randomizeRotation = true)
     {
-
+        Debug.Log(shape);
         if (shape == 0)
         {
             if (isFilled)
@@ -159,8 +159,8 @@ public class Renderer : MonoBehaviour
                     };
 
 
-
-                    NewMesh(vertices, uv, triangles, 2, false);
+                    Debug.Log("MOVING ONTO CREATE NEWMESH");
+                    NewMesh(vertices, uv, triangles, rotationSetting: 1, false);
 
                     break;
 
@@ -198,7 +198,7 @@ public class Renderer : MonoBehaviour
 
     void NewMesh(Vector3[] vertices, Vector2[] uv, int[] triangles, int rotationSetting = 0, bool allignedCorrectly = true) //because for some fucking reason, C# doesn't understand how Switch Statements work
     {
-
+        Debug.Log("NEWMESH STARTED, ROTATION SETTING IS " + rotationSetting);
         if (!allignedCorrectly)
         {
             for (int j = 0; j < vertices.Length; j++)
@@ -210,14 +210,14 @@ public class Renderer : MonoBehaviour
             }
         }
 
-        switch (rotationSetting)
+        switch (rotationSetting) // 0: none. 1: cardinal. 2: cardinal & diagonal
         {
             default:
                 //do nothing lmao
                 break;
 
             case 1:
-                Quaternion.Euler(0, 0, new System.Random().Next(0, 3) * 90);
+                transform.localRotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90);
                 break;
 
             case 2:
@@ -245,24 +245,25 @@ public class Renderer : MonoBehaviour
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
-        //PolygonCollider2D polygonCollider = new PolygonCollider2D();
-        //polygonCollider.points = newVerts;
 
-
-        Vector2[] myPoints = new Vector2[vertices.Length - 1];
-        for (i = 0; i < vertices.Length - 1; i++)
-        {
-            myPoints[i] = vertices[i];
-        }
-
-        gameObject.AddComponent<PolygonCollider2D>();
-        GetComponent<PolygonCollider2D>().points = myPoints;
+        
 
 
 
+        //Vector2[] myPoints = new Vector2[vertices.Length - 1];
+        //for (i = 0; i < vertices.Length - 1; i++)
+        //{
+        //    myPoints[i] = vertices[i];
+        //}
+
+        //gameObject.AddComponent<PolygonCollider2D>();
+        //GetComponent<PolygonCollider2D>().points = myPoints;
+
+        // Omiixi's code lmao ^
 
 
-        //autoPolygonBS(vertices, triangles);
+
+        autoPolygonBS(vertices, triangles);
 
 
 
@@ -282,7 +283,6 @@ public class Renderer : MonoBehaviour
     }
 
 
-    #region collider bullshit
 
     void autoPolygonBS(Vector3[] vertices, int[] triangles)
     {
@@ -317,7 +317,7 @@ public class Renderer : MonoBehaviour
         }
 
         // Create empty polygon collider
-        PolygonCollider2D polygonCollider = gameObject.AddComponent<PolygonCollider2D>();
+        PolygonCollider2D polygonCollider = gameObject.GetComponent<PolygonCollider2D>();
         polygonCollider.pathCount = 0;
 
         // Loop through edge vertices in order
@@ -366,7 +366,6 @@ public class Renderer : MonoBehaviour
             }
         }
     }
-#endregion
 
 
 #region Auto Shape stuff

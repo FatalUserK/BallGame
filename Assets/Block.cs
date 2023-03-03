@@ -29,7 +29,7 @@ public class Block : MonoBehaviour
     public bool invulnerable = false;
     public int blockShape = 2;
     public int blockHealth;
-    public int damageMultiplier = 1;
+    public int blockDamageMultiplier = 1;
 
     AudioSource audioData;
     //Renderer renderer;
@@ -39,15 +39,15 @@ public class Block : MonoBehaviour
     void Start()
     {
         //renderer = GetComponentInChildren<Renderer>();
-        GenerateBlock();
+        //GenerateBlock();
     }
 
-    public void GenerateBlock(int minRange = 1, int maxRange = 2, int _blockShape = -1)
+    public void GenerateBlock(int minRange = 1, int maxRange = 3, int _blockShape = 1)
     {
         if (_blockShape > -1) { blockShape = _blockShape; }
 
-        System.Random rand = new System.Random();
-        blockHealth = rand.Next(1, 2);
+        
+        blockHealth = UnityEngine.Random.Range(minRange, maxRange);
 
         GetComponentInChildren<Renderer>().Fill(blockShape);
 
@@ -63,23 +63,24 @@ public class Block : MonoBehaviour
     {
         if (!invulnerable)
         {
-            if (blockHealth <= data[0])
-            {
-                BlockDestroy();
-            }
-            else
-            {
-                blockHealth = (int)Mathf.Clamp(blockHealth - data[0] * data[1] * damageMultiplier, 0, (float)float.PositiveInfinity);
+            Debug.Log(blockHealth + " #1");
 
-                audioData.Play(0);
-                gameObject.name = blockName + blockHealth;
-            }
+            blockHealth = blockHealth - data[0] * data[1] * blockDamageMultiplier;
+
+            Debug.Log(blockHealth + " #2");
+
+            //audioData.Play(0);
+            gameObject.name = blockName + blockHealth + gameObject.transform.position;
+            Debug.Log(blockHealth + " #3");
+            if (blockHealth < 1) { BlockDestroy(); Debug.Log("DESTROYING BLOCK"); }
+            Debug.Log(blockHealth + " #4");
         }
 
     }
 
     void BlockDestroy()
     {
+        Debug.Log("DESTROYING BLOCK " + gameObject.name);
         Destroy(gameObject);
     }
 
