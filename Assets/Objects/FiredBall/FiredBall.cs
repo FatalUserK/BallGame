@@ -54,9 +54,13 @@ public class FiredBall : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    IEnumerator ReturnToSender()
     {
-        
+        while (transform.position != GEM.mainCannon.transform.position)
+        {
+            Vector3.MoveTowards(transform.position, GEM.mainCannon.transform.position, .01f);
+        }
+        yield return null;
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -66,19 +70,14 @@ public class FiredBall : MonoBehaviour
 
             if (GEM.cannonState == "Firing")
             {
-                GEM.CreateCannon(transform);
-                Debug.Log("Collided with Ground");
+                GEM.CreateCannon(transform.position);
+                Debug.Log("Collided with Ground for the first time!");
             }
 
             else if (GEM.cannonState == "Reloading")
             {
-                Component.Destroy(rb);
 
-                while (transform.position != GEM.mainCannon.transform.position)
-                {
-                    Vector2.MoveTowards(transform.position, GEM.mainCannon.transform.position, 1);
-                    Debug.Log("moving ball to New Cannon...");
-                }
+                StartCoroutine(ReturnToSender());
 
             }
             else { Debug.Log("<color=red>BALL TOUCHED GROUND IN UNACCEPTABLE STATE</color>\nSTATE: \"" + GEM.cannonState + "\"\n"); }

@@ -19,6 +19,7 @@ public class CannonScript : MonoBehaviour
     [SerializeField] double angle;
     [SerializeField] int distance;
 
+
     float speed;
 
     public int shotsRemaining;
@@ -28,6 +29,7 @@ public class CannonScript : MonoBehaviour
 
 
     bool isAiming = false;
+    bool dummy = false;
 
 
     Vector2 mousePos;
@@ -38,7 +40,7 @@ public class CannonScript : MonoBehaviour
     {
         GEM = GlobalEventsManager.GEM;
         GEM.mainCannon = gameObject;
-        GEM.cannonState = "Idle";
+        //GEM.cannonState = "Idle";
     }
 
     // Update is called once per frame
@@ -57,6 +59,7 @@ public class CannonScript : MonoBehaviour
     public void FireAway(double shootAngle)
     {
         GEM.cannonState = "Firing";
+        GEM.mainCannon = null;
         shotsRemaining = shots;
         Debug.Log(shotsRemaining + " " + shots); // where did shootAngle come from???
 

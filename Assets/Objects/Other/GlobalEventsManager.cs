@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class GlobalEventsManager : MonoBehaviour
 {
-    public static GlobalEventsManager GEM;
-    public static bool isReloading = false;
 
     [SerializeField] public List<GameObject> balls;
     public int firedBalls;
 
+
+    public static GlobalEventsManager GEM;
     public GameObject mainCannon;
     public string cannonState; // "Idle", "Firing", "Reloading".
     public float fireAngle;
+
+    public static bool isReloading = false;
 
     public int stage;
     public int level;
@@ -25,9 +27,9 @@ public class GlobalEventsManager : MonoBehaviour
 
     [SerializeField] private GameObject cannonPrefab;
 
-    public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway lmao
+    [Tooltip("Disable Ball Collection")]public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway lmao
 
-    public void Turn()
+    public void StartTurn()
     {
         timeMultiplier = 1 + (level / 100);
     }
@@ -38,9 +40,9 @@ public class GlobalEventsManager : MonoBehaviour
         GEM = this;
     }
 
-    public void CreateCannon(Transform target)
+    public void CreateCannon(Vector3 target)
     {
-        mainCannon = Instantiate(cannonPrefab, target);
+        mainCannon = Instantiate(cannonPrefab, target, Quaternion.identity);
         isReloading = true;
         cannonState = "Reloading";
     }

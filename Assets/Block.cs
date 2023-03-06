@@ -23,7 +23,6 @@ public class Block : MonoBehaviour
 
     Sprite newSprite;
 
-    public new Sprite[] spriteArray;
 
     public bool mysteryHealth = false;
     public bool invulnerable = false;
@@ -36,10 +35,9 @@ public class Block : MonoBehaviour
 
 
 
-    void Start()
+    void Awake()
     {
-        //renderer = GetComponentInChildren<Renderer>();
-        //GenerateBlock();
+        audioData = GetComponent<AudioSource>();
     }
 
     public void GenerateBlock(int minRange = 1, int maxRange = 3, int _blockShape = 1)
@@ -63,23 +61,20 @@ public class Block : MonoBehaviour
     {
         if (!invulnerable)
         {
-            Debug.Log(blockHealth + " #1");
 
             blockHealth = blockHealth - data[0] * data[1] * blockDamageMultiplier;
 
-            Debug.Log(blockHealth + " #2");
 
-            //audioData.Play(0);
+            audioData.Play(0);
             gameObject.name = blockName + blockHealth + gameObject.transform.position;
-            Debug.Log(blockHealth + " #3");
             if (blockHealth < 1) { BlockDestroy(); Debug.Log("DESTROYING BLOCK"); }
-            Debug.Log(blockHealth + " #4");
         }
 
     }
 
     void BlockDestroy()
     {
+        audioData.Play(1);
         Debug.Log("DESTROYING BLOCK " + gameObject.name);
         Destroy(gameObject);
     }
