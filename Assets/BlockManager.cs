@@ -22,7 +22,7 @@ public class BlockManager : MonoBehaviour
                 rand.Next();
                 for (int j = 0; j < 11; j++) // 11
                 {
-                    int rnd = Random.Range(-3, 5);
+                    int rnd = Random.Range(-10, 5);
                     //Debug.Log("GENERATE TUTORIAL BLOCK RND NUMBER IS " + rnd);
                     if (rnd > 0 && rnd <= 3)
                     {
