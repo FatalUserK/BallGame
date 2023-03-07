@@ -27,11 +27,22 @@ public class GlobalEventsManager : MonoBehaviour
 
     [SerializeField] private GameObject cannonPrefab;
 
-    [Tooltip("Disable Ball Collection")]public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway lmao
+    [Tooltip("Disable Ball Collection")] public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway lmao
+
+    public void CheckTurn()
+    {
+        Debug.Log("balls.Count = " + balls.Count);
+        if (balls.Count == 0)
+        {
+            StartTurn();
+        }
+    }
+
 
     public void StartTurn()
     {
         timeMultiplier = 1 + (level / 100);
+        cannonState = "Idle";
     }
 
 

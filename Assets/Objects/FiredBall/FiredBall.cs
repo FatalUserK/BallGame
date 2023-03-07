@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -56,22 +57,39 @@ public class FiredBall : MonoBehaviour
     // Update is called once per frame
     IEnumerator ReturnToSender()
     {
-        while (transform.position != GEM.mainCannon.transform.position)
+        Destroy(rb);
+        int i = 0;
+        while (transform.position != GEM.mainCannon.transform.position || i == 100)
         {
-            Vector3.MoveTowards(transform.position, GEM.mainCannon.transform.position, .01f);
+            transform.position = Vector3.MoveTowards(transform.position, GEM.mainCannon.transform.position, .03f);
+
+            i++;
+            yield return null;
         }
-        yield return null;
+        GEM.balls.Remove(gameObject);
+        Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
+        GEM.CheckTurn();
+        Debug.Log(gameObject.name + " IS CHECKING TURN");
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground" && GEM.boringBoolValue)
         {
+            Destroy(rb);
+            Debug.Log(gameObject.name + " COLLIDED WITH GROUND");
 
             if (GEM.cannonState == "Firing")
             {
                 GEM.CreateCannon(transform.position);
-                Debug.Log("Collided with Ground for the first time!");
+                Debug.Log(gameObject.name + " Collided with Ground for the first time! Creating Cannon at " + transform.position);
+                GEM.balls.Remove(gameObject);
+                Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
+                GEM.CheckTurn();
+                Debug.Log(gameObject.name + " IS CHECKING TURN");
+                Destroy(gameObject);
+                Debug.Log(gameObject.name + " SURVIVED BEING DELETED, WHAT THE FU-");
             }
 
             else if (GEM.cannonState == "Reloading")
@@ -81,7 +99,6 @@ public class FiredBall : MonoBehaviour
 
             }
             else { Debug.Log("<color=red>BALL TOUCHED GROUND IN UNACCEPTABLE STATE</color>\nSTATE: \"" + GEM.cannonState + "\"\n"); }
-            Destroy(gameObject);
 
         }
         else

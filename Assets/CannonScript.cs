@@ -21,6 +21,7 @@ public class CannonScript : MonoBehaviour
 
 
     float speed;
+    float height = 3.12f;
 
     public int shotsRemaining;
     public int shots;
@@ -29,7 +30,6 @@ public class CannonScript : MonoBehaviour
 
 
     bool isAiming = false;
-    bool dummy = false;
 
 
     Vector2 mousePos;
@@ -40,7 +40,7 @@ public class CannonScript : MonoBehaviour
     {
         GEM = GlobalEventsManager.GEM;
         GEM.mainCannon = gameObject;
-        //GEM.cannonState = "Idle";
+        transform.position = new Vector3(transform.position.x, height);
     }
 
     // Update is called once per frame
@@ -85,16 +85,18 @@ public class CannonScript : MonoBehaviour
 
         GameObject shotFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)0)); //shoot after time
 
-        shotFired.name = "Ball " + GEM.balls.ToArray().Length + 1; // names the ball accordingly
+        shotFired.name = "Ball " + (GEM.balls.ToArray().Length + 1); // names the ball accordingly
 
         foreach (GameObject ball in GEM.balls) // for every ball in the balls array
         {
             Physics2D.IgnoreCollision(shotFired.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>()); //ignore collision with other balls
         }
 
+        GetComponent<AudioSource>().Play(0);
+
         GEM.balls.Add(shotFired);
         Debug.Log("Added " + shotFired.name + " to GEM.balls:\n" + GEM.balls.ToString());
-        //if (shotsRemaining == 0) { Destroy(gameObject); }
+        if (GEM.balls.ToArray().Length == shots) { Destroy(gameObject); }
 
     }
 

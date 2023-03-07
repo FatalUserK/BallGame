@@ -67,7 +67,7 @@ public class Block : MonoBehaviour
 
             audioData.Play(0);
             gameObject.name = blockName + blockHealth + gameObject.transform.position;
-            if (blockHealth < 1) { BlockDestroy(); Debug.Log("DESTROYING BLOCK"); }
+            if (blockHealth < 1) { BlockDestroy(); }
         }
 
     }
@@ -87,6 +87,8 @@ public class Block : MonoBehaviour
     void FixedUpdate()
     {
         txt.text = "" + blockHealth;
+        //try { transform.position = Vector3.MoveTowards(transform.position, GlobalEventsManager.GEM.mainCannon.transform.position, .01f); Debug.Log("TRIED TO MOVE OBJECT, " + transform.position + " " + GlobalEventsManager.GEM.mainCannon.transform.position); }
+        //catch { Debug.Log("UNABLE TO MOVE OBJECT, " + transform.position + " " + GlobalEventsManager.GEM.mainCannon.transform.position); };
     }
 
     void SetShape(int shape)
