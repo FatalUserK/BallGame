@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1247,14 +1247,14 @@ TextureImporter:
       Stone Tileset_19: 1799435249
       Stone Tileset_44: -358805557
       Stone Tileset_12: 450586509
-      Stone Tileset_24: 134277848
       Stone Tileset_42: -1483611594
-      Stone Tileset_16: 1555479252
-      Stone Tileset_23: -1030542307
-      Stone Tileset_17: 1075269495
-      Stone Tileset_5: -283212846
-      Stone Tileset_0: -400556542
       Stone Tileset_43: -1649810624
+      Stone Tileset_24: 134277848
+      Stone Tileset_16: 1555479252
+      Stone Tileset_5: -283212846
+      Stone Tileset_17: 1075269495
+      Stone Tileset_23: -1030542307
+      Stone Tileset_0: -400556542
       Stone Tileset_11: 1306465483
       Stone Tileset_13: 2066908173
       Stone Tileset_2: -1753872341

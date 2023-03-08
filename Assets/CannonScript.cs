@@ -74,7 +74,7 @@ public class CannonScript : MonoBehaviour
         while (shotsRemaining > 0)
         {
             Invoke("ExecuteAfterTime", (shots - shotsRemaining) * waitTime / GEM.timeMultiplier);
-
+            //Invoke(Function, (amount of shots left to fire) * the default delay / the game time multiplier in the GEM)
             shotsRemaining--;
             Debug.Log(waitTime);
         }
@@ -112,7 +112,7 @@ public class CannonScript : MonoBehaviour
     {
 
         GameObject tempThingy = Instantiate(aimPrefab, position: mousePos * -1, Quaternion.identity);
-
+        tempThingy.name = "temp!";
 
 
         //for (int i = 1; i < 5; ++i)
@@ -148,37 +148,40 @@ public class CannonScript : MonoBehaviour
             {
                 angleIsAcceptable = true;
                 AimSight((float)angle);
+                Instantiate(marker, mousePos, Quaternion.identity); //generate at mousePos
             }
-
             else
             {
                 angleIsAcceptable = false;
             }
 
-            //transform.rotation = Quaternion.Euler(0f, 0f, );
 
 
 
-            Instantiate(marker, aimPoint, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle));
-            Instantiate(marker, mousePos, Quaternion.identity);
+            Instantiate(marker, aimPoint, transform.rotation * Quaternion.Euler(0f, 0f, (float)angle)); //generate another marker at aimPoint with rotation equal to the angle
 
-            //Console.WriteLine("Player: Object has spawned");
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0)) //check if they let go of the mouse
             {
+
                 isAiming = false;
+
                 if (angleIsAcceptable)
                 {
-                    FireAway(angle);
+                    FireAway(angle); //Fire Away!
                 }
-                else
-                {
-                    // canShoot = false;
-                }
+                
             }
-            yield return null;
+            yield return null; // Advance forward by 1 frame
         }
 
     }
+
+
+
+
+
+
+
 
 
 

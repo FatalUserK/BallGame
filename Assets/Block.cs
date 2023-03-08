@@ -30,8 +30,15 @@ public class Block : MonoBehaviour
     public int blockHealth;
     public int blockDamageMultiplier = 1;
 
+    public float blockIdentity;
+
     AudioSource audioData;
     //Renderer renderer;
+
+
+
+
+
 
 
 
@@ -51,7 +58,6 @@ public class Block : MonoBehaviour
 
         //GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
 
-        gameObject.name = blockName + blockHealth;
     }
 
 
@@ -72,7 +78,7 @@ public class Block : MonoBehaviour
 
     }
 
-    void BlockDestroy()
+    public void BlockDestroy()
     {
         audioData.Play(1);
         Debug.Log("DESTROYING BLOCK " + gameObject.name);
@@ -91,20 +97,53 @@ public class Block : MonoBehaviour
         //catch { Debug.Log("UNABLE TO MOVE OBJECT, " + transform.position + " " + GlobalEventsManager.GEM.mainCannon.transform.position); };
     }
 
-    void SetShape(int shape)
+    void BlockUpdate()
     {
         //polyCollider.CreatePrimitive(6);
-        switch (shape)
+        switch (blockIdentity)
         {
-            case 0:
-                blockName = "Square ";
+
+            #region 1.Square
+            case 1:
+                blockName = "Square " + blockHealth;
                 break;
 
-            case 1:
+            case 1.1f:
+                blockName = "Diamond " + blockHealth;
+                break;
+
+            case 1.2f:
+                blockName = "Spinning Diamond " + blockHealth;
+                break;
+
+            #endregion
+
+            #region 2.Triangle
+            case 2:
                 blockName = "Triangle ";
                 break;
 
-            case 2:
+            case 2.1f:
+                blockName = "Bottom-Left Triangle ";
+                break;
+
+            case 2.2f:
+                blockName = "Top-Left Triangle ";
+                break;
+
+            case 2.3f:
+                blockName = "Top-Right Triangle ";
+                break;
+
+            case 2.4f:
+                blockName = "Bottom-Right Triangle ";
+                break;
+
+            #endregion
+
+            #region 3.Other Regulars
+
+            case 6:
                 blockName = "Pentagon ";
                 break;
 
@@ -112,13 +151,32 @@ public class Block : MonoBehaviour
                 blockName = "Hexagon ";
                 break;
 
+            #endregion
+
+            #region 4.Round
+
             case 4:
                 blockName = "Circle ";
                 break;
 
+                #endregion
+
+            #region 5.Abnormal
+
             case 5:
-                blockName = "SpinTriangle ";
+
                 break;
+
+
+            #endregion
+
+
+
+            default:
+                Debug.Log(gameObject + " HAS INCORRECT DATA\nData: " + blockIdentity);
+                gameObject.name = "INCORRECT BLOCK IDENTITY " + blockIdentity;
+                break;
+
         }
         Destroy(GetComponent<PolygonCollider2D>());
         gameObject.AddComponent<PolygonCollider2D>();

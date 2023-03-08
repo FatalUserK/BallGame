@@ -35,5 +35,9 @@ public class CollisionDetector : MonoBehaviour
                     break;
             }
         }
+        else if (collision.gameObject.tag == "Level")
+        {
+            parent.GetComponent<Block>().BlockDestroy();
+        }
     }
 }
