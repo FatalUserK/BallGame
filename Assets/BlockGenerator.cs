@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Block : MonoBehaviour
+public class BlockGenerator : MonoBehaviour
 {
     public TextMeshProUGUI txt;
 
@@ -37,14 +37,21 @@ public class Block : MonoBehaviour
 
 
 
+    public bool blockGenerated = false;
 
 
+    void BlockGeneratedCheck()
+    {
+        if (!blockGenerated)
+        {
+            GenerateBlock();
+        }
+    }
 
-
-
-    void Awake()
+    void Start()
     {
         audioData = GetComponent<AudioSource>();
+        Invoke("BlockGeneratedCheck", 2);
     }
 
     public void GenerateBlock(int minRange = 1, int maxRange = 3, int _blockShape = 1)
@@ -124,19 +131,25 @@ public class Block : MonoBehaviour
                 break;
 
             case 2.1f:
-                blockName = "Bottom-Left Triangle ";
+                blockName = "Bottom-Left Corner-Triangle ";
                 break;
 
             case 2.2f:
-                blockName = "Top-Left Triangle ";
+                blockName = "Top-Left Corner-Triangle ";
                 break;
 
             case 2.3f:
-                blockName = "Top-Right Triangle ";
+                blockName = "Top-Right Corner-Triangle ";
                 break;
 
             case 2.4f:
-                blockName = "Bottom-Right Triangle ";
+                blockName = "Bottom-Right Corner-Triangle ";
+                break;
+
+            case 2.5f:
+                blockName = "Snap-Rotate Corner-Triangle ";
+                rotationBase = 90;
+                InvokeRepeating("Rotate", 1, 4);
                 break;
 
             #endregion
@@ -178,9 +191,14 @@ public class Block : MonoBehaviour
                 break;
 
         }
+        blockGenerated = true;
         Destroy(GetComponent<PolygonCollider2D>());
         gameObject.AddComponent<PolygonCollider2D>();
     }
-
+    float rotationBase = 0f;
+    void Rotate()
+    {
+        GetComponentInChildren<Transform>().Rotate(0, 0, rotationBase);
+    }
 
 }

@@ -27,12 +27,12 @@ public class BlockManager : MonoBehaviour
                     if (rnd > 0 && rnd <= 3)
                     {
                         block = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
-                        block.GetComponent<Block>().GenerateBlock(1, 5, 1);
+                        block.GetComponent<BlockGenerator>().GenerateBlock(1, 5, 1);
                     }
                     else if (rnd == 4)
                     {
                         block = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
-                        block.GetComponent<Block>().GenerateBlock(1, 5, 2);
+                        block.GetComponent<BlockGenerator>().GenerateBlock(1, 5, 2);
                     }
                 }
             }

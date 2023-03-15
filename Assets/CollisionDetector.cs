@@ -28,7 +28,7 @@ public class CollisionDetector : MonoBehaviour
         {
             switch (parent.tag) {
                 case "Block":
-                    parent.GetComponent<Block>().OnHit(collision.gameObject.GetComponent<FiredBall>().ballData);
+                    parent.GetComponent<BlockGenerator>().OnHit(collision.gameObject.GetComponent<FiredBall>().ballData);
                     break;
                 case "Boss":
                     parent.GetComponent<Boss>().OnHit(collision.gameObject.GetComponent<FiredBall>().ballData);
@@ -37,7 +37,7 @@ public class CollisionDetector : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Level")
         {
-            parent.GetComponent<Block>().BlockDestroy();
+            parent.GetComponent<BlockGenerator>().BlockDestroy();
         }
     }
 }
