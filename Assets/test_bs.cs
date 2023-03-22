@@ -15,7 +15,18 @@ public class test_bs : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown("e"))
+        {
+            StartCoroutine(CoroutineExample());
+        }
+    }
+
+
+    IEnumerator CoroutineExample()
+    {
+        Invoke("IncrementCount", 1);
+
+        yield return null;
     }
 
     void IncrementCount()
