@@ -17,10 +17,10 @@ public class BlockManager : MonoBehaviour
         if (tutorialMode)
         {
             
-            for (int i = 0; i > -10; i--) // -10
+            for (int i = 0; i > -8; i--) // X
             {
                 rand.Next();
-                for (int j = 0; j < 11; j++) // 11
+                for (int j = 0; j < 8; j++) // Y
                 {
                     int rnd = Random.Range(-10, 5);
                     //Debug.Log("GENERATE TUTORIAL BLOCK RND NUMBER IS " + rnd);
