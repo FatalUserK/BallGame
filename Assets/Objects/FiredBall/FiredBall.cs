@@ -61,7 +61,7 @@ public class FiredBall : MonoBehaviour
         int i = 0;
         while (transform.position != GEM.mainCannon.transform.position || i == 100)
         {
-            transform.position = Vector3.MoveTowards(transform.position, GEM.mainCannon.transform.position, .03f);
+            transform.position = Vector3.MoveTowards(transform.position, GEM.mainCannon.transform.position, .3f);
 
             i++;
             yield return null;

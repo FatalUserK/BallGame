@@ -324,7 +324,7 @@ Transform:
   - {fileID: 1626359502}
   - {fileID: 5196567182236130842}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5196567181839186984
 SpriteRenderer:
@@ -392,15 +392,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt: {fileID: 5196567181356863564}
   polyCollider: {fileID: 2030527151}
-  spriteArray:
-  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  - {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   mysteryHealth: 0
   invulnerable: 0
   blockShape: 0
   blockHealth: 0
-  damageMultiplier: 1
+  blockDamageMultiplier: 1
+  blockIdentity: 0
+  hitSFX: {fileID: 8300000, guid: 5783a582f1a886449942f5fa03ec06b9, type: 3}
+  breakSFX: {fileID: 8300000, guid: 2d976d49408d63549811c4d1c772e5a7, type: 3}
+  blockGenerated: 0
 --- !u!60 &2030527151
 PolygonCollider2D:
   m_ObjectHideFlags: 0

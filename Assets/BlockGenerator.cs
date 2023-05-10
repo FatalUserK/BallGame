@@ -33,6 +33,8 @@ public class BlockGenerator : MonoBehaviour
     public float blockIdentity;
 
     AudioSource audioData;
+    [SerializeField] AudioClip hitSFX;
+    [SerializeField] AudioClip breakSFX;
     //Renderer renderer;
 
 
@@ -63,6 +65,8 @@ public class BlockGenerator : MonoBehaviour
 
         GetComponentInChildren<Renderer>().Fill(blockShape);
 
+        blockGenerated = true;
+
         //GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
 
     }
@@ -77,19 +81,25 @@ public class BlockGenerator : MonoBehaviour
 
             blockHealth = blockHealth - data[0] * data[1] * blockDamageMultiplier;
 
-
-            audioData.Play(0);
             gameObject.name = blockName + blockHealth + gameObject.transform.position;
-            if (blockHealth < 1) { BlockDestroy(); }
+
+            if (blockHealth <= 0) { BlockDestroy(); }
+            else { audioData.PlayOneShot(hitSFX, 1); }
         }
 
     }
 
     public void BlockDestroy()
     {
-        audioData.Play(1);
-        Debug.Log("DESTROYING BLOCK " + gameObject.name);
-        Destroy(gameObject);
+        audioData.PlayOneShot(breakSFX, .1f);
+        Debug.Log("DESTROYING BLOCK " + gameObject.name); 
+
+        foreach (Transform child in gameObject.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        Invoke("Destroy(gameObject)", 3);
     }
 
 
@@ -170,6 +180,14 @@ public class BlockGenerator : MonoBehaviour
 
             case 4:
                 blockName = "Circle ";
+                break;
+
+            case 4.1f:
+                blockName = "Rounded Square ";
+                break;
+
+            case 4.2f:
+                blockName = "Rounded Triangle ";
                 break;
 
                 #endregion
