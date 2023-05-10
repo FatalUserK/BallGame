@@ -17,13 +17,15 @@ public class BlockManager : MonoBehaviour
         if (tutorialMode)
         {
             
-            for (int i = 0; i > -8; i--) // X
+            for (int i = 0; i > -8; i--) // Y
             {
                 rand.Next();
-                for (int j = 0; j < 8; j++) // Y
+                for (int j = 0; j < 8; j++) // X
                 {
                     int rnd = Random.Range(-10, 5);
+
                     //Debug.Log("GENERATE TUTORIAL BLOCK RND NUMBER IS " + rnd);
+
                     if (rnd > 0 && rnd <= 3)
                     {
                         block = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
