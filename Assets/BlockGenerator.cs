@@ -42,8 +42,8 @@ public class BlockGenerator : MonoBehaviour
     public bool blockGenerated = false;
 
 
-    void BlockGeneratedCheck()
-    {
+    void BlockGeneratedCheck()  // this is such a useful function :D
+    {                           // (should probably just put this in Start)
         if (!blockGenerated)
         {
             GenerateBlock();
