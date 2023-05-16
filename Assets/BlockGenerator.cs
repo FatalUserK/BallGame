@@ -42,7 +42,7 @@ public class BlockGenerator : MonoBehaviour
     public bool blockGenerated = false;
 
 
-    void BlockGeneratedCheck()  // this is such a useful function :D
+    void BlockCheck()  // this is such a useful function :D
     {                           // (should probably just put this in Start)
         if (!blockGenerated)
         {
@@ -53,7 +53,7 @@ public class BlockGenerator : MonoBehaviour
     void Start()
     {
         audioData = GetComponent<AudioSource>();
-        Invoke("BlockGeneratedCheck", 2);
+        Invoke("BlockCheck", 2);
     }
 
     public void GenerateBlock(int minRange = 1, int maxRange = 3, int _blockShape = 1)

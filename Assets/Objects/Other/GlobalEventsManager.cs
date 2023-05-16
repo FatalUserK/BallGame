@@ -11,14 +11,12 @@ public class GlobalEventsManager : MonoBehaviour
 
 
     public static GlobalEventsManager GEM;
-    public GameObject mainCannon;
+    public GameObject mainCannon; // main cannon/player when in Idle or Reloading state
     public string cannonState; // "Idle", "Firing", "Reloading".
-    public float fireAngle;
+    public double fireAngle;
 
     public static bool isReloading = false;
 
-    public int stage;
-    public int level;
 
     public float timeMultiplier = 1;
 
