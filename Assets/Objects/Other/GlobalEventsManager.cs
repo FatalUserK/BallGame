@@ -6,7 +6,7 @@ using UnityEngine;
 public class GlobalEventsManager : MonoBehaviour
 {
 
-    [SerializeField] public List<GameObject> balls;
+    [SerializeField] public List<GameObject> playerPorjectiles;
     public int firedBalls;
 
 
@@ -29,8 +29,8 @@ public class GlobalEventsManager : MonoBehaviour
 
     public void CheckTurn()
     {
-        Debug.Log("balls.Count = " + balls.Count);
-        if (balls.Count == 0)
+        Debug.Log("balls.Count = " + playerPorjectiles.Count);
+        if (playerPorjectiles.Count == 0)
         {
             StartTurn();
         }
@@ -39,7 +39,7 @@ public class GlobalEventsManager : MonoBehaviour
 
     public void StartTurn()
     {
-        timeMultiplier = 1 + (level / 100);
+        //timeMultiplier = 1 + (level / 100);
         cannonState = "Idle";
     }
 

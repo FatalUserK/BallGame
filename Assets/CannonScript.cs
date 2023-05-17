@@ -85,18 +85,18 @@ public class CannonScript : MonoBehaviour
 
         GameObject shotFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)0)); //shoot after time
 
-        shotFired.name = "Ball " + (GEM.balls.ToArray().Length + 1); // names the ball accordingly
+        shotFired.name = "Ball " + (GEM.playerPorjectiles.ToArray().Length + 1); // names the ball accordingly
 
-        foreach (GameObject ball in GEM.balls) // for every ball in the balls array
+        foreach (GameObject ball in GEM.playerPorjectiles) // for every ball in the balls array
         {
             Physics2D.IgnoreCollision(shotFired.GetComponent<CircleCollider2D>(), ball.GetComponent<CircleCollider2D>()); //ignore collision with other balls
         }
 
         GetComponent<AudioSource>().Play(0);
 
-        GEM.balls.Add(shotFired);
-        Debug.Log("Added " + shotFired.name + " to GEM.balls:\n" + GEM.balls.ToString());
-        if (GEM.balls.ToArray().Length == shots) { Destroy(gameObject); }
+        GEM.playerPorjectiles.Add(shotFired);
+        Debug.Log("Added " + shotFired.name + " to GEM.balls:\n" + GEM.playerPorjectiles.ToString());
+        if (GEM.playerPorjectiles.ToArray().Length == shots) { Destroy(gameObject); }
 
     }
 

@@ -48,7 +48,7 @@ public class FiredBall : MonoBehaviour
     {
         GEM = GlobalEventsManager.GEM;
         rb = GetComponent<Rigidbody2D>(); //find the rigidbody component in the object
-        moveDirection = new Vector2(Mathf.Cos(GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed, Mathf.Sin(GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed) / -1;
+        moveDirection = new Vector2(Mathf.Cos((float)GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed, Mathf.Sin((float)GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed) / -1;
         //Debug.Log("<color=light_blue>moveDirection = \"" + moveDirection + "\nmath1: \"" + (Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nmath2: \"" + (Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nAngle: " + transform.eulerAngles.z + "</color>");
         rb.AddForce(moveDirection * 10);
 
@@ -59,14 +59,14 @@ public class FiredBall : MonoBehaviour
     {
         Destroy(rb);
         int i = 0;
-        while (transform.position != GEM.mainCannon.transform.position || i == 100)
+        while (transform.position != GEM.mainCannon.transform.position || i == 100) // [ || i == 100 ] is a failsafe in the event something breaks and it takes longer than expected to return to sender. In this case, it will proceed regardless and remove the ball from play
         {
             transform.position = Vector3.MoveTowards(transform.position, GEM.mainCannon.transform.position, .3f);
 
             i++;
             yield return null;
         }
-        GEM.balls.Remove(gameObject);
+        GEM.playerPorjectiles.Remove(gameObject);
         Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
         GEM.CheckTurn();
         Debug.Log(gameObject.name + " IS CHECKING TURN");
@@ -84,7 +84,7 @@ public class FiredBall : MonoBehaviour
             {
                 GEM.CreateCannon(transform.position);
                 Debug.Log(gameObject.name + " Collided with Ground for the first time! Creating Cannon at " + transform.position);
-                GEM.balls.Remove(gameObject);
+                GEM.playerPorjectiles.Remove(gameObject);
                 Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
                 GEM.CheckTurn();
                 Debug.Log(gameObject.name + " IS CHECKING TURN");

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5218821936945946407}
   - component: {fileID: 5218821936945946401}
   - component: {fileID: 1871324301}
-  - component: {fileID: 1871324293}
+  - component: {fileID: 1751842346912343516}
   m_Layer: 0
   m_Name: Player
   m_TagString: PlayerAttack
@@ -152,7 +152,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1871324293
+--- !u!114 &1751842346912343516
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,18 +161,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5218821936945946405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abee61f8a325b244bbe7569a89f9c52d, type: 3}
+  m_Script: {fileID: 11500000, guid: f14036331722e3a4680ba323f142893a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   marker: {fileID: 4698933655363739580, guid: 42f9f51da63c3c742a4a7a8b33eff087, type: 3}
-  ballGFX: {fileID: 7331044901632119816, guid: 93331aa7eac2af54a8a04b4a2c0db718, type: 3}
-  firedBall: {fileID: 8591024553032796169, guid: e5aaa2557e53a80468b9e8f2f4a5d83a, type: 3}
-  aimPrefab: {fileID: 4698933655363739580, guid: 42f9f51da63c3c742a4a7a8b33eff087, type: 3}
-  angle: 0
-  distance: 0
-  shotsRemaining: 0
-  shots: 3
+  shots: 6
+  shotsRemaining: 6
   waitTime: 0.2
+  projectile: {fileID: 8591024553032796169, guid: e5aaa2557e53a80468b9e8f2f4a5d83a, type: 3}
 --- !u!1001 &3301666952751617671
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,10 +16,10 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
-        if (GlobalEventsManager.GEM.level < 0)
-        {
-            transform.localScale = new Vector2(1.4f, 1.4f);
-        }
+        // if (GlobalEventsManager.GEM.level < 0)
+        // {
+        //     transform.localScale = new Vector2(1.4f, 1.4f);
+        // }
     }
 
 

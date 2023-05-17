@@ -22,7 +22,14 @@ public class block : MonoBehaviour
 
     void GetHit() //call when ball hits block
     {
-        
+        if (blockHP >= 1) //if ball would set it to 0 or less
+        {
+            BlockBreak(); //break the block
+        }
+        else
+        {
+            blockHP--;
+        }
     }
 
 
