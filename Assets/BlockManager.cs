@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class BlockManager : MonoBehaviour
                 rand.Next();
                 for (int j = 0; j < 8; j++) // X
                 {
-                    int rnd = Random.Range(-10, 5);
+                    int rnd = UnityEngine.Random.Range(-10, 5);
 
                     //Debug.Log("GENERATE TUTORIAL BLOCK RND NUMBER IS " + rnd);
 
@@ -42,14 +43,26 @@ public class BlockManager : MonoBehaviour
     }
 
 
-
-    void GenerateTutorialBlock(int i, int j)
+    void GenerateNewBlocks(int _score)
     {
 
+        int ballUp = UnityEngine.Random.Range(0, 8);
+
+        for (int i = 0; i <= 8; i++)
+        {
+            if (i != ballUp)
+            {
+                block = Instantiate(block, new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - .5f), Quaternion.identity, transform);
+                block.GetComponent<BlockGenerator>().GenerateBlock(_score - 5, _score + 10, 1);
+            }
+        }
     }
 
 
+    void MoveBlocksDown() 
+    {
 
+    }
 
 
     // Update is called once per frame
