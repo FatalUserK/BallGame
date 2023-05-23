@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BlockManager : MonoBehaviour
@@ -58,10 +59,22 @@ public class BlockManager : MonoBehaviour
         }
     }
 
-
-    void MoveBlocksDown() 
+    public void CallBlockDescendbcUnitySucks()
     {
+        StartCoroutine("BlocksDescend", 1);
+        
+    }
 
+    public IEnumerator BlocksDescend(int amount = 1)
+    {
+        Debug.Log("oh boy we better start moving, and by precisely " + amount + " units too!");
+        Vector3 destination = new Vector3(transform.position.x, transform.position.y - amount);
+        while (transform.position != destination)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, .1f);
+            Debug.Log("moving, chugga chugga chugga...");
+            yield return null;
+        }
     }
 
 

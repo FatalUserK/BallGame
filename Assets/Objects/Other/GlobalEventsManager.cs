@@ -23,6 +23,8 @@ public class GlobalEventsManager : MonoBehaviour
 
     public int test;
 
+
+    [SerializeField] private GameObject blockManager;
     [SerializeField] private GameObject cannonPrefab;
 
     [Tooltip("Disable Ball Collection")] public bool boringBoolValue = true; // no idea what this does but i decided to bring it over from the old script anyway lmao
@@ -32,14 +34,16 @@ public class GlobalEventsManager : MonoBehaviour
         Debug.Log("balls.Count = " + playerPorjectiles.Count);
         if (playerPorjectiles.Count == 0)
         {
-            StartTurn();
+            EndTurn();
         }
     }
 
 
-    public void StartTurn()
+    public void EndTurn()
     {
+        Debug.Log("damn, turn end :pensive:");
         //timeMultiplier = 1 + (level / 100);
+        blockManager.GetComponent<BlockManager>().CallBlockDescendbcUnitySucks();
         cannonState = "Idle";
     }
 
@@ -47,6 +51,7 @@ public class GlobalEventsManager : MonoBehaviour
     private void Awake()
     {
         GEM = this;
+        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
     }
 
     public void CreateCannon(Vector3 target)

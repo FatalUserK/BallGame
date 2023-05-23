@@ -2471,6 +2471,10 @@ PrefabInstance:
       propertyPath: mainCannon
       value: 
       objectReference: {fileID: 1871324288}
+    - target: {fileID: 7863619597055079174, guid: aaef0c21c08ab104ab95300196304010, type: 3}
+      propertyPath: blockManager
+      value: 
+      objectReference: {fileID: 1818127907}
     - target: {fileID: 7863619597055079177, guid: aaef0c21c08ab104ab95300196304010, type: 3}
       propertyPath: m_Name
       value: GlobalEventsManager
