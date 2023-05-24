@@ -1,42 +1,50 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BlockManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public bool tutorialMode = true;
     bool blockSpawnMode;
 
     [SerializeField] System.Random rand = new System.Random();
 
     [SerializeField] GameObject block;
 
-    void Awake()
+
+    GlobalEventsManager GEM;
+
+    void Start()
     {
-        if (tutorialMode)
+        GEM = GlobalEventsManager.GEM;
+
+        if (GEM.tutorialMode)
         {
             
-            for (int i = 0; i > -8; i--) // Y
+            for (int i = -1; i > -8; i--) // Y
             {
                 rand.Next();
                 for (int j = 0; j < 8; j++) // X
                 {
-                    int rnd = UnityEngine.Random.Range(-10, 5);
+                    int rnd = UnityEngine.Random.Range(-15, 5);
+                    rnd = rand.Next(-15, 5);
 
                     //Debug.Log("GENERATE TUTORIAL BLOCK RND NUMBER IS " + rnd);
 
                     if (rnd > 0 && rnd <= 3)
                     {
-                        block = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
-                        block.GetComponent<BlockGenerator>().GenerateBlock(1, 5, 1);
+                        GameObject newBlock = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
+                        newBlock.GetComponent<BlockGenerator>().GenerateBlock(1, 5, 1);
                     }
                     else if (rnd == 4)
                     {
-                        block = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
-                        block.GetComponent<BlockGenerator>().GenerateBlock(1, 5, 2);
+                        GameObject newBlock = Instantiate(block, new Vector2(transform.localPosition.x + j + .5f, transform.localPosition.y + i - .5f), Quaternion.identity, transform);
+                        newBlock.GetComponent<BlockGenerator>().GenerateBlock(1, 5, 2);
                     }
                 }
             }
@@ -44,43 +52,24 @@ public class BlockManager : MonoBehaviour
     }
 
 
-    void GenerateNewBlocks(int _score)
+    public void GenerateNewBlocks(int _score)
     {
 
         int ballUp = UnityEngine.Random.Range(0, 8);
 
         for (int i = 0; i <= 8; i++)
         {
-            if (i != ballUp)
+            int r = rand.Next(1,3);
+            Debug.Log("R = " + r);
+            if (i != ballUp && r == 1)
             {
-                block = Instantiate(block, new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - .5f), Quaternion.identity, transform);
-                block.GetComponent<BlockGenerator>().GenerateBlock(_score - 5, _score + 10, 1);
-            }
-        }
-    }
-
-    public void CallBlockDescendbcUnitySucks()
-    {
-        StartCoroutine("BlocksDescend", 1);
-        
-    }
-
-    public IEnumerator BlocksDescend(int amount = 1)
-    {
-        Debug.Log("oh boy we better start moving, and by precisely " + amount + " units too!");
-        Vector3 destination = new Vector3(transform.position.x, transform.position.y - amount);
-        while (transform.position != destination)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, destination, .1f);
-            Debug.Log("moving, chugga chugga chugga...");
-            yield return null;
+                Debug.Log("spawning block");
+                GameObject newBlock = Instantiate(block, new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - .5f), Quaternion.identity, transform);
+                newBlock.GetComponent<BlockGenerator>().GenerateBlock( Mathf.Clamp(Mathf.RoundToInt(_score / (float)1.2), 1, 100000) , Mathf.RoundToInt(_score * (float)1.2), 1); 
+            }                                                           //minRange = Clamp( Rounded( score/1.2 ), 1, -1 ), maxRange = Rounded( score*1.2 )
         }
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

@@ -48,21 +48,23 @@ public class player : MonoBehaviour
         StartCoroutine(AimCoroutine());
     }
 
-
+    [SerializeField]GameObject aimBall;
     private IEnumerable AimSight(float _angle)
     {
 
         GameObject tempThingy = Instantiate(marker, position: mousePos * -1, Quaternion.identity);
         tempThingy.name = "temp!";
 
+        List<GameObject> aimMarkers = null;
+        for (int i = 1; i < 5; ++i)
+        {
+            //Destroy(GameObject.Find("BallGFX(Clone)"));
 
-        //for (int i = 1; i < 5; ++i)
-        //{
-        //    //Destroy(GameObject.Find("BallGFX(Clone)"));
-        //    GameObject aimBall[i] = Instantiate(ballGFX, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle));
+
+            aimMarkers.Add(Instantiate(aimBall, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle)));
 
 
-        //}
+        }
         yield return null;
     }
 

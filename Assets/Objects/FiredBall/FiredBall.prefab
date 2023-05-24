@@ -54,7 +54,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 8e31a857099e11540b7aad4f1c2c627d, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &1815156168882637295
 CircleCollider2D:
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0aa36d900d5a945aacc814212bb804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 7445599417914045776}
   ballSpeed: 8
   ballDamage: 1
   ballDamageMultiplier: 1

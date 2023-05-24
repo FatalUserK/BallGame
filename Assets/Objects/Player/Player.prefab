@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marker: {fileID: 4698933655363739580, guid: 42f9f51da63c3c742a4a7a8b33eff087, type: 3}
+  aimBall: {fileID: 7331044901632119816, guid: 93331aa7eac2af54a8a04b4a2c0db718, type: 3}
   shots: 6
   shotsRemaining: 6
   waitTime: 0.2

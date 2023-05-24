@@ -71,7 +71,22 @@ public class BlockGenerator : MonoBehaviour
 
     }
 
+    public void CallBlockDescendbcUnitySucks()
+    {
+        StartCoroutine("BlockDescend", 1);
 
+    }
+
+    public IEnumerator BlockDescend(int amount = 1)
+    {
+        Debug.Log("oh boy we better start moving, and by precisely " + amount + " units too!");
+        Vector3 destination = new Vector3(transform.position.x, transform.position.y - amount);
+        while (transform.position != destination)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, .1f);
+            yield return null;
+        }
+    }
 
 
     public void OnHit(List<int> data)
@@ -99,10 +114,13 @@ public class BlockGenerator : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        Invoke("Destroy(gameObject)", 3);
+        Invoke("ProxyDestroy", 0.2f);
     }
 
-
+    void ProxyDestroy()
+    {
+        Destroy(gameObject);
+    }
 
 
 

@@ -18,10 +18,17 @@ public class GlobalEventsManager : MonoBehaviour
     public static bool isReloading = false;
 
 
-    public float timeMultiplier = 1;
 
 
     public int test;
+
+
+
+    public bool tutorialMode = true;
+
+    int level = 0;
+
+    public float timeMultiplier = 1;
 
 
     [SerializeField] private GameObject blockManager;
@@ -43,7 +50,19 @@ public class GlobalEventsManager : MonoBehaviour
     {
         Debug.Log("damn, turn end :pensive:");
         //timeMultiplier = 1 + (level / 100);
-        blockManager.GetComponent<BlockManager>().CallBlockDescendbcUnitySucks();
+        
+        if (blockManager.GetComponentsInChildren<BlockGenerator>().Length == 0) { tutorialMode = false; Debug.Log("i am one in a krillion"); } //check if all blocks in tutorial mode have been destroyed, disable tutorialMode if there are no more remaining blocks
+
+        if (!tutorialMode)
+        {
+            level++;
+            blockManager.GetComponent<BlockManager>().GenerateNewBlocks(level);
+            for (int i = 0; i <= blockManager.GetComponentsInChildren<BlockGenerator>().Length - 1; i++)
+            {
+                blockManager.GetComponentsInChildren<BlockGenerator>()[i].CallBlockDescendbcUnitySucks();
+            }
+        }
+        
         cannonState = "Idle";
     }
 
@@ -51,7 +70,6 @@ public class GlobalEventsManager : MonoBehaviour
     private void Awake()
     {
         GEM = this;
-        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
     }
 
     public void CreateCannon(Vector3 target)
