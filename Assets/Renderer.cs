@@ -42,10 +42,10 @@ public class Renderer : MonoBehaviour
         parent = gameObject.transform.parent.gameObject;
     }
 
-    public void Fill(int shape = 0, bool randomizeRotation = true)
+    public void Fill(string shape = "square", bool randomizeRotation = true)
     {
         Debug.Log(shape);
-        if (shape == 0)
+        if (shape == "square_test?")
         {
             if (isFilled)
             {
@@ -63,13 +63,14 @@ public class Renderer : MonoBehaviour
             List<Vector3> points = new List<Vector3>();
             switch (shape)
             {
-                case 0:
+                
+                case "":
                     //impossible lmao
                     break;
 
-                case 1:
-                        //square
-
+                case "square":
+                    //square
+                    Debug.Log("CREATING SQUARE");
                     vertices = new Vector3[]
                     { 
                         new Vector3(0, 0), 
@@ -136,7 +137,7 @@ public class Renderer : MonoBehaviour
                     break;
 
                 #region not-squares
-                case 2:
+                case "corner":
                     //corner triangle
 
                     vertices = new Vector3[]
@@ -164,28 +165,13 @@ public class Renderer : MonoBehaviour
 
                     break;
 
-                case 3:
+                case "triangle":
                     //triangle
 
 
 
                     break;
 
-                case 40:
-
-                    break;
-
-                case 50:
-
-                    break;
-
-                case 60:
-
-                    break;
-
-                case 70:
-
-                    break;
                     #endregion
 
             }

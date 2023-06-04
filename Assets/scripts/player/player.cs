@@ -49,23 +49,22 @@ public class player : MonoBehaviour
     }
 
     [SerializeField]GameObject aimBall;
-    private IEnumerable AimSight(float _angle)
+    private void AimSight(float _angle)
     {
-
         GameObject tempThingy = Instantiate(marker, position: mousePos * -1, Quaternion.identity);
         tempThingy.name = "temp!";
 
-        List<GameObject> aimMarkers = null;
+        List<GameObject> aimMarkers = new List<GameObject>();
         for (int i = 1; i < 5; ++i)
         {
+            //Debug.Log("LOG 3." + i + "!!!!!");
             //Destroy(GameObject.Find("BallGFX(Clone)"));
 
 
-            aimMarkers.Add(Instantiate(aimBall, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle)));
-
+            GameObject newMarker = Instantiate(marker, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle));
+            newMarker.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
         }
-        yield return null;
     }
 
 
@@ -125,8 +124,8 @@ public class player : MonoBehaviour
 
     #region Fire
 
-    [Tooltip("How many total shots the player has")][SerializeField] int shots;
-    [Tooltip("How many shots the player has remaining")][SerializeField] int shotsRemaining;
+    [Tooltip("How many total shots the player has")][SerializeField] public int shots;
+    [Tooltip("How many shots the player has remaining")][SerializeField] public int shotsRemaining;
 
     [Tooltip("The base time between shots")][SerializeField] float waitTime;
 
@@ -134,6 +133,7 @@ public class player : MonoBehaviour
 
     public void Shoot(double shootAngle)
     {
+        GEM.mainCannon = null;
         GEM.cannonState = "Firing"; //sets the cannont state so the GEM knows its firing
 
         shotsRemaining = shots; //sets the remaining shots to be equal to the amount of shots the player has
@@ -142,14 +142,13 @@ public class player : MonoBehaviour
 
         GEM.fireAngle = shootAngle; //sets the angle the balls will be fired at
 
-
-        while (shotsRemaining > 0)
+        int _shotsRemaining = shotsRemaining;
+        while (_shotsRemaining > 0)
         {
-            Invoke("FireAway", (shots - shotsRemaining) * waitTime / GEM.timeMultiplier);
+            Invoke("FireAway", (shots - _shotsRemaining) * waitTime / GEM.timeMultiplier);
             //Invoke(Function, (amount of shots left to fire) * the default delay / the game time multiplier in the GEM)
-            shotsRemaining--;
+            _shotsRemaining--;
             Debug.Log(waitTime);
-            GEM.mainCannon = null;
         }
     }
 
@@ -168,10 +167,10 @@ public class player : MonoBehaviour
         shotFired.name = "Ball " + (GEM.playerPorjectiles.ToArray().Length); //name the projectile accordingly
         Debug.Log("Added " + shotFired.name + " to GEM.playerPorjectiles:\n" + GEM.playerPorjectiles.ToString()); //make a debug log
 
-
         GetComponent<AudioSource>().Play(0); //play the firing sound
 
-        if (GEM.playerPorjectiles.ToArray().Length == shots) { Destroy(gameObject); } //if there are no more  projectiles to be fired, destroy cannon
+        shotsRemaining--;
+        if (shotsRemaining == 0) { Destroy(gameObject); } //if there are no more  projectiles to be fired, destroy cannon
     }
 
     #endregion

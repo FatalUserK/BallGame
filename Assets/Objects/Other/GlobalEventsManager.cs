@@ -18,6 +18,12 @@ public class GlobalEventsManager : MonoBehaviour
     public static bool isReloading = false;
 
 
+    ////////////////////player stuff
+
+    public int ballCount = 1;
+
+
+    /////////////////////
 
 
     public int test;
@@ -56,13 +62,11 @@ public class GlobalEventsManager : MonoBehaviour
         if (!tutorialMode)
         {
             level++;
-            blockManager.GetComponent<BlockManager>().GenerateNewBlocks(level);
-            for (int i = 0; i <= blockManager.GetComponentsInChildren<BlockGenerator>().Length - 1; i++)
-            {
-                blockManager.GetComponentsInChildren<BlockGenerator>()[i].CallBlockDescendbcUnitySucks();
-            }
+            blockManager.GetComponent<BlockManager>().GenerateNewRow(level, 3);
+            //StartCoroutine(blockManager.GetComponent<BlockManager>().Descend());
         }
         
+        mainCannon.GetComponent<player>().shots = ballCount; mainCannon.GetComponent<player>().shotsRemaining = ballCount;
         cannonState = "Idle";
     }
 

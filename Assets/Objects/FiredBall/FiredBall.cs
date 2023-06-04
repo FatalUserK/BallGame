@@ -29,14 +29,19 @@ public class FiredBall : MonoBehaviour
     [Tooltip("Contains relevant data about the object to more easily transfer it to other objects.")]public List<int> ballData;
 
 
-
+    //Mathf.Clamp((((timeSinceLastHit + 5) / 10 ^ (timeSinceLastHit - 1000) / 500) - 43) / 100, 0, 10) //NOTE: ADD THIS AS SOMETHING THAT IS APPLIED TO GRAVITY
 
     int timeSinceLastHit = 0;
     // Update is called once per frame
     void FixedUpdate()
     {
-        timeSinceLastHit++;
-        rb.gravityScale = Mathf.Clamp((((timeSinceLastHit + 5)/10^(timeSinceLastHit-1000)/500)-43)/10 , 0, 10);
+        if (rb != null)
+        {
+            timeSinceLastHit++;
+            rb.gravityScale += 0.00001f;
+            //if ()
+        }
+        
     }
 
 
@@ -61,7 +66,13 @@ public class FiredBall : MonoBehaviour
         moveDirection = new Vector2(Mathf.Cos((float)GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed, Mathf.Sin((float)GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed) / -1;
         //Debug.Log("<color=light_blue>moveDirection = \"" + moveDirection + "\nmath1: \"" + (Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nmath2: \"" + (Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nAngle: " + transform.eulerAngles.z + "</color>");
         rb.AddForce(moveDirection * 10);
+        Invoke("SetBool",1);
 
+    }
+
+    void SetBool()
+    {
+        boringBoolValue = true;
     }
 
     // Update is called once per frame
@@ -84,37 +95,36 @@ public class FiredBall : MonoBehaviour
         Destroy(gameObject);
     }
 
+    bool boringBoolValue = false;
+
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground" && GEM.boringBoolValue)
+        if (col.gameObject.tag == "Ground" && boringBoolValue)
         {
             Destroy(rb);
             Debug.Log(gameObject.name + " COLLIDED WITH GROUND");
 
             if (GEM.cannonState == "Firing")
             {
-                GEM.CreateCannon(transform.position);
+                GEM.CreateCannon(new Vector2(transform.position.x, 3.1f));
                 Debug.Log(gameObject.name + " Collided with Ground for the first time! Creating Cannon at " + transform.position);
                 GEM.playerPorjectiles.Remove(gameObject);
-                Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
                 GEM.CheckTurn();
-                Debug.Log(gameObject.name + " IS CHECKING TURN");
                 Destroy(gameObject);
-                Debug.Log(gameObject.name + " SURVIVED BEING DELETED, WHAT THE FU-");
             }
 
             else if (GEM.cannonState == "Reloading")
             {
-
+                boringBoolValue = false;
                 StartCoroutine(ReturnToSender());
 
             }
             else { Debug.Log("<color=red>BALL TOUCHED GROUND IN UNACCEPTABLE STATE</color>\nSTATE: \"" + GEM.cannonState + "\"\n"); }
 
         }
-        else if (col.gameObject.tag == "block")
+        else if (col.gameObject.tag == "Block")
         {
-            // Debug.Log("Ball has Bounced!");
+            rb.gravityScale = 0;
         }
     }
 

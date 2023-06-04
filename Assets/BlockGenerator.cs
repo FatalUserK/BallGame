@@ -26,7 +26,7 @@ public class BlockGenerator : MonoBehaviour
 
     public bool mysteryHealth = false;
     public bool invulnerable = false;
-    public int blockShape = 2;
+    public string blockShape = "square";
     public int blockHealth;
     public int blockDamageMultiplier = 1;
 
@@ -56,18 +56,17 @@ public class BlockGenerator : MonoBehaviour
         Invoke("BlockCheck", 2);
     }
 
-    public void GenerateBlock(int minRange = 1, int maxRange = 3, int _blockShape = 1)
+    public void GenerateBlock(int _health = 3, string _blockShape = "square")
     {
-        if (_blockShape > -1) { blockShape = _blockShape; }
+        //if (_blockShape > -1) { blockShape = _blockShape; }
 
-        
-        blockHealth = UnityEngine.Random.Range(minRange, maxRange);
 
-        GetComponentInChildren<Renderer>().Fill(blockShape);
+        blockHealth = _health;
+
+        GetComponentInChildren<Renderer>().Fill(_blockShape);
 
         blockGenerated = true;
 
-        //GetComponent<SpriteRenderer>().sprite = spriteArray[blockShape];
 
     }
 
@@ -79,7 +78,7 @@ public class BlockGenerator : MonoBehaviour
 
     public IEnumerator BlockDescend(int amount = 1)
     {
-        Debug.Log("oh boy we better start moving, and by precisely " + amount + " units too!");
+        //Debug.Log("oh boy we better start moving, and by precisely " + amount + " units too!");
         Vector3 destination = new Vector3(transform.position.x, transform.position.y - amount);
         while (transform.position != destination)
         {
