@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BlockManager : MonoBehaviour
 {
@@ -34,8 +35,11 @@ public class BlockManager : MonoBehaviour
         yield return null;
         yield return null;
 
-        if (recall > 0) { GenerateNewRow()}
+        Debug.Log("rows at Descend recall start: " + recall);
+        //recall--;
+        if (recall > 0) { GenerateNewRow(recall); }
 
+        Debug.Log("rows at Descend recall end: " + recall);
         #region cringe naenae commented stuff
         //List<Transform> targetList = new List<Transform>();
         //for (int i = 0; i < transform.childCount - 1; ++i)
@@ -151,8 +155,8 @@ public class BlockManager : MonoBehaviour
                 GameObject newBlock = Instantiate(extraBall, new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - .5f), Quaternion.identity, transform);
             }
         }
-        
-       
+
+        Debug.Log("rows at StartCoroutine: " + rows);
         if (doDescend) { StartCoroutine(Descend(rows)); }
     }
 

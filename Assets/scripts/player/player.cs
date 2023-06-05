@@ -148,7 +148,7 @@ public class player : MonoBehaviour
             Invoke("FireAway", (shots - _shotsRemaining) * waitTime / GEM.timeMultiplier);
             //Invoke(Function, (amount of shots left to fire) * the default delay / the game time multiplier in the GEM)
             _shotsRemaining--;
-            Debug.Log(waitTime);
+            //Debug.Log(waitTime);
         }
     }
 
@@ -165,7 +165,7 @@ public class player : MonoBehaviour
 
         GEM.playerPorjectiles.Add(shotFired); //add the projectile to an array managed by the GEM
         shotFired.name = "Ball " + (GEM.playerPorjectiles.ToArray().Length); //name the projectile accordingly
-        Debug.Log("Added " + shotFired.name + " to GEM.playerPorjectiles:\n" + GEM.playerPorjectiles.ToString()); //make a debug log
+        //Debug.Log("Added " + shotFired.name + " to GEM.playerPorjectiles:\n" + GEM.playerPorjectiles.ToString()); //make a debug log
 
         GetComponent<AudioSource>().Play(0); //play the firing sound
 

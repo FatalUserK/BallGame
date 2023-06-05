@@ -78,7 +78,7 @@ public class FiredBall : MonoBehaviour
     // Update is called once per frame
     IEnumerator ReturnToSender()
     {
-        Debug.Log(gameObject.name + "is returning to sender...");
+        //Debug.Log(gameObject.name + "is returning to sender...");
         Destroy(rb);
         int j = 0;
         while (transform.position != GEM.mainCannon.transform.position || j == 100) // [ || i == 100 ] is a failsafe in the event something breaks and it takes longer than expected to return to sender. In this case, it will proceed regardless and remove the ball from play
@@ -89,9 +89,9 @@ public class FiredBall : MonoBehaviour
             yield return null;
         }
         GEM.playerPorjectiles.Remove(gameObject);
-        Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
+        //Debug.Log(gameObject.name + " REMOVED FROM GEM.balls");
         GEM.CheckTurn();
-        Debug.Log(gameObject.name + " IS CHECKING TURN");
+        //Debug.Log(gameObject.name + " IS CHECKING TURN");
         Destroy(gameObject);
     }
 
@@ -102,12 +102,12 @@ public class FiredBall : MonoBehaviour
         if (col.gameObject.tag == "Ground" && boringBoolValue)
         {
             Destroy(rb);
-            Debug.Log(gameObject.name + " COLLIDED WITH GROUND");
+            //Debug.Log(gameObject.name + " COLLIDED WITH GROUND");
 
             if (GEM.cannonState == "Firing")
             {
                 GEM.CreateCannon(new Vector2(transform.position.x, 3.1f));
-                Debug.Log(gameObject.name + " Collided with Ground for the first time! Creating Cannon at " + transform.position);
+                //Debug.Log(gameObject.name + " Collided with Ground for the first time! Creating Cannon at " + transform.position);
                 GEM.playerPorjectiles.Remove(gameObject);
                 GEM.CheckTurn();
                 Destroy(gameObject);
@@ -119,7 +119,7 @@ public class FiredBall : MonoBehaviour
                 StartCoroutine(ReturnToSender());
 
             }
-            else { Debug.Log("<color=red>BALL TOUCHED GROUND IN UNACCEPTABLE STATE</color>\nSTATE: \"" + GEM.cannonState + "\"\n"); }
+            //else { Debug.Log("<color=red>BALL TOUCHED GROUND IN UNACCEPTABLE STATE</color>\nSTATE: \"" + GEM.cannonState + "\"\n"); }
 
         }
         else if (col.gameObject.tag == "Block")

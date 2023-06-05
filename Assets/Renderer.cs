@@ -44,7 +44,7 @@ public class Renderer : MonoBehaviour
 
     public void Fill(string shape = "square", bool randomizeRotation = true)
     {
-        Debug.Log(shape);
+        //Debug.Log(shape); //log the shape the specified block is
         if (shape == "square_test?")
         {
             if (isFilled)
@@ -70,7 +70,7 @@ public class Renderer : MonoBehaviour
 
                 case "square":
                     //square
-                    Debug.Log("CREATING SQUARE");
+                    //Debug.Log("CREATING SQUARE");
                     vertices = new Vector3[]
                     { 
                         new Vector3(0, 0), 
@@ -160,7 +160,7 @@ public class Renderer : MonoBehaviour
                     };
 
 
-                    Debug.Log("MOVING ONTO CREATE NEWMESH");
+                    //Debug.Log("MOVING ONTO CREATE NEWMESH");
                     NewMesh(vertices, uv, triangles, rotationSetting: 1, false);
 
                     break;
@@ -184,7 +184,7 @@ public class Renderer : MonoBehaviour
 
     void NewMesh(Vector3[] vertices, Vector2[] uv, int[] triangles, int rotationSetting = 0, bool allignedCorrectly = true) //because for some fucking reason, C# doesn't understand how Switch Statements work
     {
-        Debug.Log("NEWMESH STARTED, ROTATION SETTING IS " + rotationSetting);
+        //Debug.Log("NEWMESH STARTED, ROTATION SETTING IS " + rotationSetting);
         if (!allignedCorrectly)
         {
             for (int j = 0; j < vertices.Length; j++)
