@@ -148,7 +148,6 @@ public class player : MonoBehaviour
             Invoke("FireAway", (shots - _shotsRemaining) * waitTime / GEM.timeMultiplier);
             //Invoke(Function, (amount of shots left to fire) * the default delay / the game time multiplier in the GEM)
             _shotsRemaining--;
-            //Debug.Log(waitTime);
         }
     }
 

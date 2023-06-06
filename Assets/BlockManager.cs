@@ -24,16 +24,22 @@ public class BlockManager : MonoBehaviour
 
     GlobalEventsManager GEM;
 
+
+    bool temp = true;
     public IEnumerator Descend(int amount = 1, int recall = 0)
     {
-
-        for (int i = 0; i < transform.childCount; ++i)
+        if (temp)
         {
-            Transform child = transform.GetChild(i);
-            child.transform.DOMove(new Vector3(child.position.x, child.position.y-amount, child.position.z), .15f);
+            temp = false;
+            for (int i = 0; i < transform.childCount; ++i)
+            {
+                recall--;
+                Transform child = transform.GetChild(i);
+                child.transform.DOMove(new Vector3(child.position.x, child.position.y - amount, child.position.z), .15f);
+            }
+            yield return new WaitForSeconds(1);
+            temp = true;
         }
-        yield return null;
-        yield return null;
 
         Debug.Log("rows at Descend recall start: " + recall);
         //recall--;
@@ -98,7 +104,7 @@ public class BlockManager : MonoBehaviour
 
 
 
-            GenerateNewRow(5);
+            GenerateNewRow(7, 3, 6);
 
         }
     }
@@ -113,13 +119,10 @@ public class BlockManager : MonoBehaviour
     //block types: square 1, corner 2, everything 0
     public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, int rows = 1, bool doDescend = true)
     {
-        rows--;
         int[] ints = new int[] { baseHP, blockTypes };
 
         List<string> blockTypeList = new List<string>();
 
-        Debug.Log("Before Decipher: " + blockTypes);
-        // blockTypes = 1 here
 
         if (blockTypes - 2 >= 0)
         {
@@ -130,11 +133,6 @@ public class BlockManager : MonoBehaviour
         {
             blockTypeList.Add("square");
         }
-
-        Debug.Log("After Decipher: " + blockTypes);
-        //and -1 here
-
-        Debug.Log("Block Types in new row: " + blockTypeList);
 
 
 
@@ -157,7 +155,8 @@ public class BlockManager : MonoBehaviour
         }
 
         Debug.Log("rows at StartCoroutine: " + rows);
-        if (doDescend) { StartCoroutine(Descend(rows)); }
+        if (doDescend) { StartCoroutine(Descend(1, rows)); }
+        rows--;
     }
 
 
