@@ -25,24 +25,19 @@ public class BlockManager : MonoBehaviour
     GlobalEventsManager GEM;
 
 
-    bool temp = true;
     public IEnumerator Descend(int amount = 1, int recall = 0)
     {
-        if (temp)
+        float waitTime = (.5f * amount) + .1f;
+        for (int i = 0; i < transform.childCount; ++i)
         {
-            temp = false;
-            for (int i = 0; i < transform.childCount; ++i)
-            {
-                recall--;
-                Transform child = transform.GetChild(i);
-                child.transform.DOMove(new Vector3(child.position.x, child.position.y - amount, child.position.z), .15f);
-            }
-            yield return new WaitForSeconds(1);
-            temp = true;
+            Transform child = transform.GetChild(i);
+            child.transform.DOMove(new Vector3(child.position.x, child.position.y - amount, child.position.z), waitTime);
         }
+        yield return new WaitForSeconds(waitTime);
+
 
         Debug.Log("rows at Descend recall start: " + recall);
-        //recall--;
+        recall--;
         if (recall > 0) { GenerateNewRow(recall); }
 
         Debug.Log("rows at Descend recall end: " + recall);
@@ -87,7 +82,7 @@ public class BlockManager : MonoBehaviour
         if (GEM.tutorialMode)
         {
 
-            //for (int i = -1; i > -8; i--) // Y
+            //for (int i = 7; i > 0; i--) // Y
             //{
             //    rand.Next();
             //    for (int j = 0; j < 8; j++) // X
@@ -123,7 +118,7 @@ public class BlockManager : MonoBehaviour
 
         List<string> blockTypeList = new List<string>();
 
-
+        
         if (blockTypes - 2 >= 0)
         {
             blockTypeList.Add("corner");
@@ -156,7 +151,10 @@ public class BlockManager : MonoBehaviour
 
         Debug.Log("rows at StartCoroutine: " + rows);
         if (doDescend) { StartCoroutine(Descend(1, rows)); }
-        rows--;
+        else if ( rows > 0 )
+        {
+            GenerateNewRow(rows);
+        }
     }
 
 

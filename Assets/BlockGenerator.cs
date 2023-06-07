@@ -106,7 +106,7 @@ public class BlockGenerator : MonoBehaviour
     public void BlockDestroy()
     {
         audioData.PlayOneShot(breakSFX, .1f);
-        Debug.Log("DESTROYING BLOCK " + gameObject.name); 
+        //Debug.Log("DESTROYING BLOCK " + gameObject.name); 
 
         foreach (Transform child in gameObject.transform)
         {

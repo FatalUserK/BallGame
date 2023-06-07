@@ -163,12 +163,12 @@ public class player : MonoBehaviour
         }
 
         GEM.playerPorjectiles.Add(shotFired); //add the projectile to an array managed by the GEM
-        shotFired.name = "Ball " + (GEM.playerPorjectiles.ToArray().Length); //name the projectile accordingly
+        shotFired.name = "Ball " + shotsRemaining; //name the projectile accordingly
+        shotsRemaining--;
         //Debug.Log("Added " + shotFired.name + " to GEM.playerPorjectiles:\n" + GEM.playerPorjectiles.ToString()); //make a debug log
 
         GetComponent<AudioSource>().Play(0); //play the firing sound
 
-        shotsRemaining--;
         if (shotsRemaining == 0) { Destroy(gameObject); } //if there are no more  projectiles to be fired, destroy cannon
     }
 
