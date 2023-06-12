@@ -27,7 +27,7 @@ public class BlockManager : MonoBehaviour
 
     public IEnumerator Descend(int amount = 1, int recall = 0)
     {
-        float waitTime = (.5f * amount) + .1f;
+        float waitTime = (.05f / amount) + .1f;
         for (int i = 0; i < transform.childCount; ++i)
         {
             Transform child = transform.GetChild(i);
@@ -38,7 +38,7 @@ public class BlockManager : MonoBehaviour
 
         Debug.Log("rows at Descend recall start: " + recall);
         recall--;
-        if (recall > 0) { GenerateNewRow(recall); }
+        if (recall > 0) { GenerateNewRow(rows: recall); }
 
         Debug.Log("rows at Descend recall end: " + recall);
         #region cringe naenae commented stuff
@@ -99,7 +99,7 @@ public class BlockManager : MonoBehaviour
 
 
 
-            GenerateNewRow(7, 3, 6);
+            GenerateNewRow(7, 3, 9);
 
         }
     }
@@ -112,9 +112,13 @@ public class BlockManager : MonoBehaviour
 
 
     //block types: square 1, corner 2, everything 0
-    public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, int rows = 1, bool doDescend = true)
+    public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, int rows = 1, bool doDescend = true, int[] blockData = null)
     {
-        int[] ints = new int[] { baseHP, blockTypes };
+        if (blockData != null)
+        {
+            baseHP = blockData[0];
+            blockTypes = blockData[1];
+        }
 
         List<string> blockTypeList = new List<string>();
 
