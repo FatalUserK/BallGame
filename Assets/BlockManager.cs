@@ -25,7 +25,7 @@ public class BlockManager : MonoBehaviour
     GlobalEventsManager GEM;
 
 
-    public IEnumerator Descend(int amount = 1, int recall = 0)
+    public IEnumerator Descend(int amount = 1, int recall = 0, int[] recallBlockData = null)
     {
         float waitTime = (.05f / amount) + .1f;
         for (int i = 0; i < transform.childCount; ++i)
@@ -38,7 +38,7 @@ public class BlockManager : MonoBehaviour
 
         Debug.Log("rows at Descend recall start: " + recall);
         recall--;
-        if (recall > 0) { GenerateNewRow(rows: recall); }
+        if (recall > 0) { GenerateNewRow(rows: recall, blockData: recallBlockData); }
 
         Debug.Log("rows at Descend recall end: " + recall);
         #region cringe naenae commented stuff
@@ -112,14 +112,20 @@ public class BlockManager : MonoBehaviour
 
 
     //block types: square 1, corner 2, everything 0
-    public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, int rows = 1, bool doDescend = true, int[] blockData = null)
+    public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, int rows = 1, int offset = 0, bool doDescend = true, int[] blockData = null)
     {
         if (blockData != null)
         {
             baseHP = blockData[0];
             blockTypes = blockData[1];
         }
-
+        else
+        {
+            blockData = new int[0];
+            blockData = new int[1];
+            blockData[0] = baseHP;
+            blockData[1] = blockTypes;
+        }
         List<string> blockTypeList = new List<string>();
 
         
@@ -144,7 +150,7 @@ public class BlockManager : MonoBehaviour
             {
                 int typePoolDraw = rand.Next(0, blockTypeList.Count);
                 Debug.Log("Luck of the draw: " + typePoolDraw);
-                GenerateNewBlock(new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - .5f), Mathf.Clamp(Mathf.RoundToInt(baseHP * (float)0.9), 1, baseHP * 2), Mathf.RoundToInt(baseHP * (float)1.3), blockTypeList.ElementAt(typePoolDraw)); //this is probably somewhat inefficient, but eh
+                GenerateNewBlock(new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - offset - .5f), Mathf.Clamp(Mathf.RoundToInt(baseHP * (float)0.9), 1, baseHP * 2), Mathf.RoundToInt(baseHP * (float)1.3), blockTypeList.ElementAt(typePoolDraw)); //this is probably somewhat inefficient, but eh
             }                                                           //minRange = Clamp( Rounded( score/1.2 ), 1, -1 ), maxRange = Rounded( score*1.2 )
 
             else if (i == ballUp)
@@ -154,10 +160,10 @@ public class BlockManager : MonoBehaviour
         }
 
         Debug.Log("rows at StartCoroutine: " + rows);
-        if (doDescend) { StartCoroutine(Descend(1, rows)); }
+        if (doDescend) { StartCoroutine(Descend(1, rows, blockData)); }
         else if ( rows > 0 )
         {
-            GenerateNewRow(rows);
+            GenerateNewRow(rows: rows - 1, offset: offset + 1);
         }
     }
 
