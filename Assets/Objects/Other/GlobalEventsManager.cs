@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GlobalEventsManager : MonoBehaviour
 {
+    public float difficultyMultiplier = 2;
+
 
     [SerializeField] public List<GameObject> playerPorjectiles;
     public int firedBalls;
@@ -32,8 +34,9 @@ public class GlobalEventsManager : MonoBehaviour
 
     public bool tutorialMode = true;
 
-    int level = 0;
-
+    public int level = 1;
+    public int score = 0;
+    public int blockHits = 0;
     public float timeMultiplier = 1;
 
 
@@ -62,7 +65,7 @@ public class GlobalEventsManager : MonoBehaviour
         if (!tutorialMode)
         {
             level++;
-            blockManager.GetComponent<BlockManager>().GenerateNewRow(level, 3);
+            blockManager.GetComponent<BlockManager>().GenerateNewRow((int)(level * difficultyMultiplier), 3);
             //StartCoroutine(blockManager.GetComponent<BlockManager>().Descend());
         }
         
@@ -74,6 +77,11 @@ public class GlobalEventsManager : MonoBehaviour
     private void Awake()
     {
         GEM = this;
+    }
+
+    private void Start()
+    {
+        EndTurn();
     }
 
     public void CreateCannon(Vector3 target)

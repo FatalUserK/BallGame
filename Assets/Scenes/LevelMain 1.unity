@@ -2401,7 +2401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050093054}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1.4, z: -1.4}
+  m_LocalPosition: {x: 0.5, y: 1.4, z: -0.7}
   m_LocalScale: {x: 41.00074, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2557,6 +2557,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1871324288}
     - target: {fileID: 7863619597055079174, guid: aaef0c21c08ab104ab95300196304010, type: 3}
+      propertyPath: cannonState
+      value: Reloading
+      objectReference: {fileID: 0}
+    - target: {fileID: 7863619597055079174, guid: aaef0c21c08ab104ab95300196304010, type: 3}
       propertyPath: blockManager
       value: 
       objectReference: {fileID: 1818127907}
@@ -2623,6 +2627,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5196567181839186987, guid: d151c9612483d7e42b3246b2fd17b061, type: 3}
+      propertyPath: blockGenerated
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5196567181839186989, guid: d151c9612483d7e42b3246b2fd17b061, type: 3}
       propertyPath: m_Name
       value: Block
@@ -2640,7 +2648,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1751842346912343516, guid: bc0c65705b379ca499583288dd775981, type: 3}
       propertyPath: shots
-      value: 3
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751842346912343516, guid: bc0c65705b379ca499583288dd775981, type: 3}
+      propertyPath: shotsRemaining
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5218821936945946405, guid: bc0c65705b379ca499583288dd775981, type: 3}
       propertyPath: m_Name

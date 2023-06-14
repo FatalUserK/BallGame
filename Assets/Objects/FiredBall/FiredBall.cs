@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -66,7 +65,7 @@ public class FiredBall : MonoBehaviour
         moveDirection = new Vector2(Mathf.Cos((float)GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed, Mathf.Sin((float)GEM.fireAngle * Mathf.Deg2Rad) * ballSpeed) / -1;
         //Debug.Log("<color=light_blue>moveDirection = \"" + moveDirection + "\nmath1: \"" + (Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nmath2: \"" + (Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad) * ballSpeed) + "\nAngle: " + transform.eulerAngles.z + "</color>");
         rb.AddForce(moveDirection * 10);
-        Invoke("SetBool",1);
+        Invoke("SetBool",.15f);
 
     }
 
@@ -106,7 +105,7 @@ public class FiredBall : MonoBehaviour
 
             if (GEM.cannonState == "Firing")
             {
-                GEM.CreateCannon(new Vector2(transform.position.x, 3.1f));
+                GEM.CreateCannon(new Vector2(transform.position.x, 3.2f));
                 //Debug.Log(gameObject.name + " Collided with Ground for the first time! Creating Cannon at " + transform.position);
                 GEM.playerPorjectiles.Remove(gameObject);
                 GEM.CheckTurn();
@@ -125,6 +124,7 @@ public class FiredBall : MonoBehaviour
         else if (col.gameObject.tag == "Block")
         {
             rb.gravityScale = 0;
+            GEM.blockHits++;
         }
     }
 

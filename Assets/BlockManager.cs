@@ -39,6 +39,7 @@ public class BlockManager : MonoBehaviour
         Debug.Log("rows at Descend recall start: " + recall);
         recall--;
         if (recall > 0) { GenerateNewRow(rows: recall, blockData: recallBlockData); }
+        else { GEM.cannonState = "Idle"; }
 
         Debug.Log("rows at Descend recall end: " + recall);
         #region cringe naenae commented stuff
@@ -99,8 +100,8 @@ public class BlockManager : MonoBehaviour
 
 
 
-            GenerateNewRow(7, 3, 9);
-
+            GenerateNewRow(6, 3, 0.1f, 9);
+            GEM.level += 9;
         }
     }
 
@@ -112,7 +113,7 @@ public class BlockManager : MonoBehaviour
 
 
     //block types: square 1, corner 2, everything 0
-    public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, int rows = 1, int offset = 0, bool doDescend = true, int[] blockData = null)
+    public void GenerateNewRow(int baseHP = 10, int blockTypes = 1, float blockDensity = .5f, int rows = 1, int offset = 0, bool doDescend = true, int[] blockData = null)
     {
         if (blockData != null)
         {
@@ -121,8 +122,7 @@ public class BlockManager : MonoBehaviour
         }
         else
         {
-            blockData = new int[0];
-            blockData = new int[1];
+            blockData = new int[2];
             blockData[0] = baseHP;
             blockData[1] = blockTypes;
         }
@@ -145,18 +145,20 @@ public class BlockManager : MonoBehaviour
 
         for (int i = 0; i <= 8; i++)
         {
-            int r = rand.Next(1, 3);
-            if (i != ballUp && r == 1)
-            {
-                int typePoolDraw = rand.Next(0, blockTypeList.Count);
-                Debug.Log("Luck of the draw: " + typePoolDraw);
-                GenerateNewBlock(new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - offset - .5f), Mathf.Clamp(Mathf.RoundToInt(baseHP * (float)0.9), 1, baseHP * 2), Mathf.RoundToInt(baseHP * (float)1.3), blockTypeList.ElementAt(typePoolDraw)); //this is probably somewhat inefficient, but eh
-            }                                                           //minRange = Clamp( Rounded( score/1.2 ), 1, -1 ), maxRange = Rounded( score*1.2 )
+            float densityRandom = UnityEngine.Random.Range(0f, 1f);
+            Debug.Log(densityRandom);
 
-            else if (i == ballUp)
+            if (i == ballUp)
             {
                 GameObject newBlock = Instantiate(extraBall, new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - .5f), Quaternion.identity, transform);
             }
+            else if (densityRandom <= blockDensity)
+            {
+                int typePoolDraw = rand.Next(0, blockTypeList.Count);
+                //Debug.Log("Luck of the draw: " + typePoolDraw);
+                GenerateNewBlock(new Vector2(transform.localPosition.x + i + .5f, transform.localPosition.y - offset - .5f), Mathf.Clamp(Mathf.RoundToInt(baseHP * 0.9f), 1, baseHP * 2), Mathf.RoundToInt(baseHP * (float)1.3), blockTypeList.ElementAt(typePoolDraw)); //this is probably somewhat inefficient, but eh
+            }                                                   //minRange = Clamp( Rounded( score/1.2 ), 1, -1 ), maxRange = Rounded( score*1.2 )
+
         }
 
         Debug.Log("rows at StartCoroutine: " + rows);
@@ -165,6 +167,8 @@ public class BlockManager : MonoBehaviour
         {
             GenerateNewRow(rows: rows - 1, offset: offset + 1);
         }
+
+
     }
 
 
