@@ -83,7 +83,7 @@ public class CannonScript : MonoBehaviour
     public void ExecuteAfterTime()
     {
 
-        GameObject shotFired = Instantiate(firedBall, transform.position, transform.rotation * Quaternion.Euler(0f, 0f, (float)0)); //shoot after time
+        GameObject shotFired = Instantiate(firedBall, transform.position, Quaternion.Euler(0f, 0f, transform.rotation.z*0)); //shoot after time
 
         shotFired.name = "Ball " + (GEM.playerPorjectiles.ToArray().Length + 1); // names the ball accordingly
 
@@ -107,21 +107,21 @@ public class CannonScript : MonoBehaviour
         //Debug.Log("Player: Mouse position is locked correctly");
         StartCoroutine(AimCoroutine());
     }
-
+    List<GameObject> aimSightMarkers;
     private IEnumerable AimSight(float _angle)
     {
 
         GameObject tempThingy = Instantiate(aimPrefab, position: mousePos * -1, Quaternion.identity);
         tempThingy.name = "temp!";
 
+        aimSightMarkers = null;
+        for (int i = 1; i < 5; ++i)
+        {
+            //Destroy(GameObject.Find("BallGFX(Clone)"));
+            aimSightMarkers.Add(Instantiate(ballGFX, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle)));
 
-        //for (int i = 1; i < 5; ++i)
-        //{
-        //    //Destroy(GameObject.Find("BallGFX(Clone)"));
-        //    GameObject aimBall[i] = Instantiate(ballGFX, transform.position + new Vector3(0, 0, i), Quaternion.Euler(0f, 0f, _angle));
 
-
-        //}
+        }
         yield return null;
     }
 

@@ -2542,6 +2542,10 @@ PrefabInstance:
       propertyPath: tutorialMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7863619597055079174, guid: aaef0c21c08ab104ab95300196304010, type: 3}
+      propertyPath: difficultyMultiplier
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7863619597055079177, guid: aaef0c21c08ab104ab95300196304010, type: 3}
       propertyPath: m_Name
       value: GlobalEventsManager
